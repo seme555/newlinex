@@ -16,3 +16,7 @@ venv/
 .vscode/
 
 # Ignore Python compiled files
+__pycache__/
+*.pyc
+
+plugins/
