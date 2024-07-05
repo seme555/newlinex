@@ -88,3 +88,21 @@ newlinex-sales/
     â”‚   â”œâ”€â”€ base_processor.py          # Abstract base class
     â”‚   â”œâ”€â”€ bronze_processor.py        # Raw data ingestion
     â”‚   â”œâ”€â”€ silver_processor.py        # Data cleaning & deduplication
+    â”‚   â”œâ”€â”€ gold_processor.py          # Business aggregations
+    â”‚   â””â”€â”€ quality_checker.py         # Data quality validation
+    â””â”€â”€ utils/
+        â”œâ”€â”€ database.py                # DuckDB connection manager
+        â”œâ”€â”€ logger.py                  # Logging configuration
+        â”œâ”€â”€ metrics.py                 # Custom Prometheus metrics
+        â””â”€â”€ storage.py                 # MinIO/S3 client
+```
+
+---
+
+## **ðŸ”§ Setup Instructions**
+
+### **1. Prerequisites**
+
+- **Docker** and **Docker Compose** installed
+- Minimum **8GB RAM** recommended
+- **Git** for cloning the repository
