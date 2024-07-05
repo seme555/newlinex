@@ -52,3 +52,21 @@ This pipeline is perfect for **data engineers** and **students** interested in l
 | **Query Engine**      | [Trino](https://trino.io/)                                                 | Distributed SQL querying on Delta Lake             |
 | **Visualization**     | [Metabase](https://www.metabase.com/)                                      | Interactive dashboards and BI                       |
 | **Data Quality**      | [Soda Core](https://www.soda.io/)                                          | Data validation and quality checks                  |
+| **Data Lineage**      | [Marquez](https://marquezproject.ai/) + [OpenLineage](https://openlineage.io/) | End-to-end data lineage tracking            |
+| **Observability**     | [Prometheus](https://prometheus.io/) + [Grafana](https://grafana.com/)    | Metrics collection and visualization                |
+| **Data Generation**   | [Faker](https://faker.readthedocs.io/) + [Faker Commerce](https://pypi.org/project/faker-commerce/) | Realistic sales data simulation |
+
+---
+
+## **ðŸ“¦ Project Structure**
+
+```bash
+newlinex-sales/
+â”œâ”€â”€ airflow/
+â”‚   â””â”€â”€ dags/
+â”‚       â””â”€â”€ sales_pipeline.py          # Main Airflow DAG
+â”œâ”€â”€ config/
+â”‚   â””â”€â”€ pipeline_config.yaml           # Pipeline configuration
+â”œâ”€â”€ docker/
+â”‚   â”œâ”€â”€ airflow/                       # Airflow Docker setup
+â”‚   â”œâ”€â”€ grafana/                       # Grafana dashboards & datasources
