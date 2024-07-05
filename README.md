@@ -106,3 +106,21 @@ newlinex-sales/
 - **Docker** and **Docker Compose** installed
 - Minimum **8GB RAM** recommended
 - **Git** for cloning the repository
+
+### **2. Clone the Repository**
+
+```bash
+git clone https://github.com/seme555/newlinex.git
+cd newlinex
+```
+
+### **3. Start All Services**
+
+```bash
+docker-compose up -d
+```
+
+âš ï¸ **Note:** First startup takes 3-5 minutes to initialize all services. All components are containerized using Docker for easy deployment.
+
+### **4. Access the Services**
+
