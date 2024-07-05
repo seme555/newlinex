@@ -70,3 +70,21 @@ newlinex-sales/
 â”œâ”€â”€ docker/
 â”‚   â”œâ”€â”€ airflow/                       # Airflow Docker setup
 â”‚   â”œâ”€â”€ grafana/                       # Grafana dashboards & datasources
+â”‚   â”œâ”€â”€ marquez/                       # Marquez lineage configuration
+â”‚   â”œâ”€â”€ metabase/                      # Metabase setup scripts
+â”‚   â”œâ”€â”€ prometheus/                    # Prometheus configuration
+â”‚   â”œâ”€â”€ statsd/                        # StatsD metrics mapping
+â”‚   â””â”€â”€ trino/                         # Trino catalog configuration
+â”œâ”€â”€ docker-compose.yml                 # Docker services orchestration
+â”œâ”€â”€ soda/
+â”‚   â””â”€â”€ checks.yml                     # Soda Core quality checks
+â””â”€â”€ src/
+    â”œâ”€â”€ config.py                      # Configuration management
+    â”œâ”€â”€ generators/
+    â”‚   â””â”€â”€ sales_generator.py         # Synthetic data generator
+    â”œâ”€â”€ models/
+    â”‚   â””â”€â”€ schemas.py                 # Pydantic validation schemas
+    â”œâ”€â”€ processors/
+    â”‚   â”œâ”€â”€ base_processor.py          # Abstract base class
+    â”‚   â”œâ”€â”€ bronze_processor.py        # Raw data ingestion
+    â”‚   â”œâ”€â”€ silver_processor.py        # Data cleaning & deduplication
