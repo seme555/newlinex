@@ -34,3 +34,21 @@ This pipeline is perfect for **data engineers** and **students** interested in l
 3. **Silver Layer** cleans, validates, and deduplicates data into Delta Lake tables
 4. **Quality Checks** validates Silver data using Soda Core with 15+ checks
 5. **Gold Layer** creates business aggregations (daily sales, product performance, customer segments)
+6. **Trino** provides SQL interface for querying Delta Lake tables
+7. **Metabase** visualizes business metrics through interactive dashboards
+8. **Marquez** tracks data lineage across the entire pipeline
+9. **Grafana** monitors pipeline health and performance metrics
+
+---
+
+## **ðŸ› ï¸ Tech Stack**
+
+| **Component**         | **Technology**                                                              | **Purpose**                                         |
+|-----------------------|-----------------------------------------------------------------------------|-----------------------------------------------------|
+| **Orchestration**     | [Apache Airflow](https://airflow.apache.org/)                       | DAG scheduling and task management                  |
+| **Data Processing**   | [DuckDB](https://duckdb.org/)                                       | Fast analytical processing in-memory                |
+| **Data Lake Format**  | [Delta Lake](https://delta.io/)                                            | ACID transactions, time travel, schema evolution    |
+| **Object Storage**    | [MinIO](https://min.io/)                                                   | S3-compatible storage for Bronze/Silver/Gold layers |
+| **Query Engine**      | [Trino](https://trino.io/)                                                 | Distributed SQL querying on Delta Lake             |
+| **Visualization**     | [Metabase](https://www.metabase.com/)                                      | Interactive dashboards and BI                       |
+| **Data Quality**      | [Soda Core](https://www.soda.io/)                                          | Data validation and quality checks                  |
