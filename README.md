@@ -124,3 +124,21 @@ docker-compose up -d
 
 ### **4. Access the Services**
 
+| **Service**               | **URL**                          | **Credentials**          |
+|---------------------------|----------------------------------|--------------------------|
+| **Airflow UI**            | `http://localhost:8080`          | `admin` / `admin`        |
+| **Metabase**              | `http://localhost:3000`          | `admin@newlinex.dev` / `NewlineX2024!` |
+| **Grafana**               | `http://localhost:3001`          | `admin` / `admin`        |
+| **MinIO Console**         | `http://localhost:9001`          | `minioadmin` / `minioadmin` |
+| **Trino UI**              | `http://localhost:8081/ui`       | *No Auth*                |
+| **Marquez (Lineage)**     | `http://localhost:3002`          | *No Auth*                |
+| **Prometheus**            | `http://localhost:9090`          | *No Auth*                |
+
+---
+
+## **ðŸ“¥ Data Generation & Ingestion**
+
+### **1. Sales Data Simulation**
+
+The pipeline generates realistic sales transactions using **Faker** library with the following schema:
+
