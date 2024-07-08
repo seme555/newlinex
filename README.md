@@ -178,3 +178,21 @@ The Airflow DAG runs **hourly** by default and processes:
 ---
 
 ## **ðŸ”„ Data Processing Pipeline**
+
+### **Bronze Layer: Raw Data Ingestion**
+
+- **Purpose:** Store raw data as-is without validation
+- **Format:** JSON files in MinIO (s3://bronze/)
+- **Strategy:** Accept dirty data for downstream cleaning
+- **Idempotency:** Timestamped files prevent overwrites
+
+```python
+# Bronze processor accepts all data
+processor = BronzeProcessor()
+result = processor.process()
+# Output: {"key": "sales/sales_20250101_120000.json", "count": 100}
+```
+
+### **Silver Layer: Data Cleaning & Deduplication**
+
+- **Purpose:** Clean and validate data with business rules
