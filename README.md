@@ -142,3 +142,21 @@ docker-compose up -d
 
 The pipeline generates realistic sales transactions using **Faker** library with the following schema:
 
+```python
+{
+  "transaction_id": "uuid",
+  "customer_id": int,
+  "product_id": int,
+  "quantity": int,
+  "unit_price": float,
+  "total_amount": float,
+  "transaction_timestamp": "ISO 8601",
+  "payment_method": "credit_card | debit_card | cash | digital_wallet",
+  "store_id": int,
+  "status": "completed | pending | cancelled"
+}
+```
+
+**Data Quality Issues Injected:**
+- ~20% of records contain intentional issues (null values, future dates, negative amounts, mismatched totals, etc.)
+- Realistic simulation of real-world data quality problems
