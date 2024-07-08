@@ -160,3 +160,21 @@ The pipeline generates realistic sales transactions using **Faker** library with
 **Data Quality Issues Injected:**
 - ~20% of records contain intentional issues (null values, future dates, negative amounts, mismatched totals, etc.)
 - Realistic simulation of real-world data quality problems
+
+### **2. Dimension Tables**
+
+- **Products** (50 items): Generated with faker-commerce
+- **Customers** (1,000 users): Includes demographics and segments
+
+### **3. Pipeline Execution**
+
+The Airflow DAG runs **hourly** by default and processes:
+- 100 sales transactions per run
+- Incremental loading to Bronze layer
+- Automatic dimension loading (idempotent)
+
+![Airflow DAG](img/airflow-dag.png)
+
+---
+
+## **ðŸ”„ Data Processing Pipeline**
