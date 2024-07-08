@@ -196,3 +196,21 @@ result = processor.process()
 ### **Silver Layer: Data Cleaning & Deduplication**
 
 - **Purpose:** Clean and validate data with business rules
+- **Format:** Delta Lake tables with partitioning
+- **Processing:** DuckDB for fast transformations
+- **Quality Rules:**
+  - Remove null required fields
+  - Filter future timestamps
+  - Validate payment methods & statuses
+  - Check amount calculations
+  - Deduplicate by transaction_id
+
+```python
+# Silver processor cleans and deduplicates
+processor = SilverProcessor()
+result = processor.process(bronze_key="sales/sales_20250101_120000.json")
+# Output: {
+#   "records_read": 100,
+#   "records_cleaned": 80,
+#   "records_written": 75,
+#   "duplicates_removed": 5
