@@ -214,3 +214,21 @@ result = processor.process(bronze_key="sales/sales_20250101_120000.json")
 #   "records_cleaned": 80,
 #   "records_written": 75,
 #   "duplicates_removed": 5
+# }
+```
+
+### **Gold Layer: Business Aggregations**
+
+Gold layer creates three business-critical tables using **parallel processing** (ThreadPoolExecutor):
+
+#### **1. Daily Sales Summary**
+```sql
+SELECT
+    partition_date,
+    COUNT(DISTINCT transaction_id) as total_transactions,
+    COUNT(DISTINCT customer_id) as unique_customers,
+    SUM(total_amount) as total_revenue,
+    AVG(total_amount) as avg_transaction_value,
+    SUM(quantity) as total_items_sold,
+    completion_rate
+FROM silver.sales
