@@ -232,3 +232,21 @@ SELECT
     SUM(quantity) as total_items_sold,
     completion_rate
 FROM silver.sales
+GROUP BY partition_date
+```
+
+#### **2. Product Performance**
+```sql
+SELECT
+    product_id,
+    product_name,
+    category,
+    SUM(quantity) as units_sold,
+    SUM(total_amount) as revenue,
+    AVG(unit_price) as avg_selling_price
+FROM silver.sales
+JOIN bronze.products USING (product_id)
+WHERE status = 'completed'
+GROUP BY product_id, product_name, category
+```
+
