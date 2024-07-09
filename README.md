@@ -250,3 +250,21 @@ WHERE status = 'completed'
 GROUP BY product_id, product_name, category
 ```
 
+#### **3. Customer Segments**
+```sql
+SELECT
+    customer_id,
+    customer_segment,
+    COUNT(transaction_id) as purchase_count,
+    SUM(total_amount) as total_spend,
+    CASE
+        WHEN SUM(total_amount) > 1000 THEN 'High Value'
+        WHEN SUM(total_amount) > 500 THEN 'Medium Value'
+        ELSE 'Low Value'
+    END as value_tier
+FROM silver.sales
+JOIN bronze.customers USING (customer_id)
+GROUP BY customer_id, customer_segment
+```
+
+**Parallel Processing:**
