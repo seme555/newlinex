@@ -304,3 +304,21 @@ checks for sales_silver:
   
   # Statistical
   - avg(total_amount) between 50 and 2000
+  - max(total_amount) < 5000
+```
+
+**Quality Check Results:**
+- Tracked in Prometheus metrics
+- Visualized in Grafana dashboard
+- Logged in Airflow task logs
+
+---
+
+## **ðŸ” Query Data with Trino**
+
+### **1. Run Trino CLI**
+
+```bash
+docker-compose exec trino trino --server https://localhost:8081
+```
+
