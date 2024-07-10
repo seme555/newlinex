@@ -358,3 +358,21 @@ SELECT
     COUNT(*) as customer_count,
     AVG(total_spend) as avg_spend
 FROM customer_segments
+WHERE data_date = CAST(CURRENT_DATE AS VARCHAR)
+GROUP BY value_tier;
+
+-- Join across layers
+SELECT 
+    p.category,
+    SUM(s.total_revenue) as category_revenue
+FROM delta.analytics.product_performance p
+JOIN delta.analytics.daily_sales_summary s
+    ON p.data_date = s.partition_date
+GROUP BY p.category
+ORDER BY category_revenue DESC;
+```
+
+---
+
+## **ðŸ“Š Data Visualization with Metabase**
+
