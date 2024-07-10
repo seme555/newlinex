@@ -268,3 +268,21 @@ GROUP BY customer_id, customer_segment
 ```
 
 **Parallel Processing:**
+- All three aggregations run concurrently
+- ThreadPoolExecutor with 3 workers
+
+---
+
+## **âœ… Data Quality Validation**
+
+### **Soda Core Checks (15+ Rules)**
+
+The pipeline validates Silver data with comprehensive checks:
+
+```yaml
+checks for sales_silver:
+  # Volume checks
+  - row_count > 0
+  - row_count < 10000
+  
+  # Completeness
