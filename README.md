@@ -322,3 +322,21 @@ checks for sales_silver:
 docker-compose exec trino trino --server https://localhost:8081
 ```
 
+### **2. Connect to Delta Lake Catalog**
+
+```sql
+USE delta.analytics;
+SHOW TABLES;
+```
+
+### **3. Query Examples**
+
+```sql
+-- Daily revenue trend
+SELECT 
+    partition_date,
+    total_revenue,
+    total_transactions
+FROM daily_sales_summary
+ORDER BY partition_date DESC
+LIMIT 7;
