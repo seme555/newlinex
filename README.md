@@ -394,3 +394,21 @@ The setup script automatically creates a **Sales Performance Dashboard** with:
 - Unique Customers Today
 - Completion Rate Today
 
+#### **Visualizations:**
+- Daily Revenue Trend (Line Chart)
+- Top 10 Products by Revenue (Bar Chart)
+- Revenue by Category (Horizontal Bar)
+- Customer Value Distribution (Pie Chart)
+
+![Metabase Dashboard](img/metabase.png)
+
+### **3. Custom Queries**
+
+Create new questions using SQL:
+
+```sql
+-- Weekly sales trend
+SELECT 
+    DATE_TRUNC('week', CAST(partition_date AS DATE)) as week,
+    SUM(total_revenue) as weekly_revenue
+FROM daily_sales_summary
