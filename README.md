@@ -376,3 +376,21 @@ ORDER BY category_revenue DESC;
 
 ## **ðŸ“Š Data Visualization with Metabase**
 
+### **1. Access Metabase**
+
+Navigate to: `http://localhost:3000`
+
+**Credentials:**
+- Email: `admin@newlinex.dev`
+- Password: `NewlineX2024!`
+
+### **2. Pre-configured Dashboard**
+
+The setup script automatically creates a **Sales Performance Dashboard** with:
+
+#### **KPI Cards:**
+- Total Revenue Today
+- Total Transactions Today
+- Unique Customers Today
+- Completion Rate Today
+
