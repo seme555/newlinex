@@ -340,3 +340,21 @@ SELECT
 FROM daily_sales_summary
 ORDER BY partition_date DESC
 LIMIT 7;
+
+-- Top selling products
+SELECT 
+    product_name,
+    category,
+    revenue,
+    units_sold
+FROM product_performance
+WHERE data_date = CAST(CURRENT_DATE AS VARCHAR)
+ORDER BY revenue DESC
+LIMIT 10;
+
+-- Customer value distribution
+SELECT 
+    value_tier,
+    COUNT(*) as customer_count,
+    AVG(total_spend) as avg_spend
+FROM customer_segments
