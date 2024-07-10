@@ -286,3 +286,21 @@ checks for sales_silver:
   - row_count < 10000
   
   # Completeness
+  - missing_count(transaction_id) = 0
+  - missing_count(customer_id) = 0
+  
+  # Business rules
+  - failed rows: quantity <= 0
+  - failed rows: total_amount <= 0
+  - failed rows: total != quantity * unit_price
+  
+  # Validity
+  - duplicate_count(transaction_id) = 0
+  - valid payment_method values
+  - valid status values
+  
+  # Freshness
+  - freshness(transaction_timestamp) < 2h
+  
+  # Statistical
+  - avg(total_amount) between 50 and 2000
