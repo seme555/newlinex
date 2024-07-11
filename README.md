@@ -484,3 +484,21 @@ Navigate to: `http://localhost:3001`
 
 #### **Performance Metrics:**
 - DAG Run Duration
+- Task Duration by Stage
+- Records Processed by Layer
+- Gold Table Row Counts
+
+#### **Resource Metrics:**
+- MinIO S3 Requests (successful vs errors)
+- Memory Usage
+- CPU Utilization
+
+![Grafana Dashboard](img/grafana.png)
+
+### **3. Custom Metrics**
+
+The pipeline pushes custom metrics to Prometheus:
+
+```python
+# Records processed
+pipeline_records_processed_total{layer="silver", table="sales"} 75
