@@ -448,3 +448,21 @@ Marquez automatically tracks:
 
 ![Marquez Lineage](img/lineage.png)
 
+### **3. Lineage Features**
+
+**Tracked Entities:**
+- Datasets: Bronze files, Silver tables, Gold aggregations
+- Jobs: Airflow tasks
+- Runs: Execution history with success/failure status
+
+**Benefits:**
+- Impact analysis (what breaks if I change X?)
+- Root cause analysis (where did bad data come from?)
+- Compliance & auditing
+
+---
+
+## **ðŸ”­ Observability with Prometheus & Grafana**
+
+### **1. Access Grafana**
+
