@@ -466,3 +466,21 @@ Marquez automatically tracks:
 
 ### **1. Access Grafana**
 
+Navigate to: `http://localhost:3001`
+
+**Credentials:**
+- Username: `admin`
+- Password: `admin`
+
+### **2. Pre-configured Dashboard**
+
+**Sales Pipeline Observability** dashboard includes:
+
+#### **Health Metrics:**
+- Airflow Status
+- MinIO Health
+- Data Quality Status
+- Storage Usage
+
+#### **Performance Metrics:**
+- DAG Run Duration
