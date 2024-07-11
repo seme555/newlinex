@@ -412,3 +412,21 @@ SELECT
     DATE_TRUNC('week', CAST(partition_date AS DATE)) as week,
     SUM(total_revenue) as weekly_revenue
 FROM daily_sales_summary
+GROUP BY week
+ORDER BY week DESC
+LIMIT 12;
+
+-- Product category performance
+SELECT 
+    category,
+    COUNT(DISTINCT product_id) as product_count,
+    SUM(revenue) as total_revenue,
+    AVG(revenue) as avg_product_revenue
+FROM product_performance
+WHERE data_date >= CURRENT_DATE - INTERVAL '30' DAY
+GROUP BY category;
+```
+
+---
+
+## **ðŸ“ˆ Data Lineage with Marquez**
