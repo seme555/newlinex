@@ -430,3 +430,21 @@ GROUP BY category;
 ---
 
 ## **ðŸ“ˆ Data Lineage with Marquez**
+
+### **1. Access Marquez UI**
+
+Navigate to: `http://localhost:3002`
+
+### **2. View Pipeline Lineage**
+
+- **Namespace:** `newlinex-sales`
+- **DAG:** `sales_delta_pipeline`
+
+Marquez automatically tracks:
+- Dataset inputs/outputs for each task
+- Transformations across Bronze â†’ Silver â†’ Gold
+- Column-level lineage (when available)
+- Run history and timing
+
+![Marquez Lineage](img/lineage.png)
+
