@@ -502,3 +502,21 @@ The pipeline pushes custom metrics to Prometheus:
 ```python
 # Records processed
 pipeline_records_processed_total{layer="silver", table="sales"} 75
+
+# Data quality failures
+pipeline_data_quality_failures_total{check_name="No negative amounts"} 0
+
+# Table sizes
+pipeline_delta_table_rows{table_name="daily_sales_summary"} 30
+```
+
+### **4. Prometheus Queries**
+
+```promql
+# Average processing time per layer
+rate(airflow_task_duration_sum[1h]) / rate(airflow_task_duration_count[1h])
+
+# Success rate
+100 * (
+    sum(rate(airflow_dagrun_success_total[1h]))
+    /
