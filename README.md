@@ -556,3 +556,21 @@ rate(pipeline_records_processed_total[1h])
 - ThreadPoolExecutor with 3 workers
 
 ### **âœ… Full Observability**
+- Custom Prometheus metrics
+- Grafana dashboards
+- Data lineage with Marquez
+- OpenLineage integration
+
+### **âœ… Best Practices**
+- Error handling & retries
+- Comprehensive logging
+- Health checks for services
+- Docker containerization
+
+---
+
+## **ðŸ”§ Configuration**
+
+### **Pipeline Configuration** (`config/pipeline_config.yaml`)
+
+```yaml
