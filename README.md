@@ -520,3 +520,21 @@ rate(airflow_task_duration_sum[1h]) / rate(airflow_task_duration_count[1h])
 100 * (
     sum(rate(airflow_dagrun_success_total[1h]))
     /
+    sum(rate(airflow_dagrun_duration_count[1h]))
+)
+
+# Records processed per hour
+rate(pipeline_records_processed_total[1h])
+```
+
+---
+
+## **ðŸ† Key Features**
+
+### **âœ… Medallion Architecture**
+- Bronze â†’ Silver â†’ Gold layers
+- Progressive data quality improvement
+- Clear separation of concerns
+
+### **âœ… Data Quality First**
+- 15+ Soda Core validation rules
