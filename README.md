@@ -538,3 +538,21 @@ rate(pipeline_records_processed_total[1h])
 
 ### **âœ… Data Quality First**
 - 15+ Soda Core validation rules
+- Automatic dirty data generation for testing
+- Quality metrics in Grafana
+
+### **âœ… ACID Transactions**
+- Delta Lake for Silver/Gold layers
+- Time travel support
+- Schema evolution
+
+### **âœ… Idempotent Operations**
+- Safe to re-run any task
+- Deduplication in Silver layer
+- Upsert operations in Gold layer
+
+### **âœ… Parallel Processing**
+- Gold aggregations run concurrently
+- ThreadPoolExecutor with 3 workers
+
+### **âœ… Full Observability**
