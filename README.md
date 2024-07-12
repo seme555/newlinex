@@ -574,3 +574,21 @@ rate(pipeline_records_processed_total[1h])
 ### **Pipeline Configuration** (`config/pipeline_config.yaml`)
 
 ```yaml
+pipeline:
+  name: "sales_delta_pipeline"
+  schedule: "@hourly"              # Cron schedule
+  start_date: "2025-01-01"
+  retries: 1
+
+data_generation:
+  sales_records_per_run: 100       # Records per DAG run
+  num_products: 50
+  num_customers: 1000
+  num_stores: 20
+
+aggregation:
+  trigger_hour: 0                  # UTC hour for Gold aggregation
+
+data_quality:
+  enabled: true
+  checks_path: "/opt/airflow/soda/checks.yml"
