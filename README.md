@@ -610,3 +610,21 @@ observability:
 ---
 
 ## **ðŸ”§ Delta Lake Configuration**
+
+Delta Lake is used as the storage format for the Silver and Gold layers, providing ACID transactions, schema enforcement, and time travel capabilities. Below are the key configuration details:
+
+- **Storage Paths:**
+  - Silver Layer: `s3://silver/`
+  - Gold Layer: `s3://gold/`
+- **Partitioning:**
+  - Both Silver and Gold layers are partitioned by date for efficient querying.
+- **Schema Evolution:**
+  - Delta Lake automatically handles schema changes, ensuring compatibility with evolving data structures.
+- **Time Travel:**
+  - Enables querying historical data by specifying a timestamp or version.
+
+Delta Lake tables are registered in Trino for querying, and the metadata is managed automatically during the pipeline execution.
+
+---
+
+## **ðŸ”„ Airflow DAG Details**
