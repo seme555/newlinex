@@ -592,3 +592,21 @@ aggregation:
 data_quality:
   enabled: true
   checks_path: "/opt/airflow/soda/checks.yml"
+  fail_on_error: false             # Continue on quality failures
+
+storage:
+  bronze_bucket: "bronze"
+  silver_bucket: "silver"
+  gold_bucket: "gold"
+
+observability:
+  metrics_enabled: true
+  job_name: "sales_pipeline"
+  prometheus_pushgateway: "prometheus-pushgateway:9091"
+  log_level: "INFO"
+  fail_on_error: false
+```
+
+---
+
+## **ðŸ”§ Delta Lake Configuration**
