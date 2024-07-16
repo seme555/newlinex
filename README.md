@@ -700,3 +700,21 @@ docker-compose restart metabase-setup
 docker-compose logs -f metabase-setup
 ```
 
+---
+
+## **ðŸ“Ž Quick Reference Commands**
+
+| **Component**           | **Command**                                                              |
+|-------------------------|--------------------------------------------------------------------------|
+| **Start Services**      | `docker-compose up -d`                                                   |
+| **Stop Services**       | `docker-compose down`                                                    |
+| **View Logs**           | `docker-compose logs -f [service]`                                       |
+| **Rebuild**             | `docker-compose up --build --force-recreate -d`                          |
+| **Trigger DAG**         | `docker exec -it airflow-scheduler airflow dags trigger sales_delta_pipeline` |
+| **List Buckets**        | `docker exec -it mc mc ls minio/`                                        |
+| **Query Trino**         | `docker-compose exec trino trino`                                        |
+| **View Metrics**        | `curl http://localhost:9102/metrics`                                     |
+| **Check Health**        | `docker-compose ps`                                                      |
+
+---
+
