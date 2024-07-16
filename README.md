@@ -682,3 +682,21 @@ docker exec -it mc mc ls -r minio/gold/
 
 # Wait for Gold aggregation to run (check current hour)
 # Or manually trigger:
+docker exec -it airflow-scheduler \
+  airflow tasks test sales_delta_pipeline aggregate_to_gold 2025-01-01
+
+# Re-register tables in Trino
+docker-compose restart trino-init
+```
+
+### **Issue: Metabase connection failed**
+
+```bash
+# Check Trino health
+curl http://localhost:8081/v1/info
+
+# Re-run Metabase setup
+docker-compose restart metabase-setup
+docker-compose logs -f metabase-setup
+```
+
