@@ -664,3 +664,21 @@ docker-compose down && docker-compose up -d
 ### **Issue: Airflow DAG not appearing**
 
 ```bash
+# Check Airflow logs
+docker-compose logs -f airflow-scheduler
+
+# Verify DAG file
+docker exec -it airflow-scheduler ls -la /opt/airflow/dags/
+
+# Test DAG
+docker exec -it airflow-scheduler airflow dags test sales_delta_pipeline 2025-01-01
+```
+
+### **Issue: Trino can't query tables**
+
+```bash
+# Check if Delta tables exist in MinIO
+docker exec -it mc mc ls -r minio/gold/
+
+# Wait for Gold aggregation to run (check current hour)
+# Or manually trigger:
