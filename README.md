@@ -628,3 +628,21 @@ Delta Lake tables are registered in Trino for querying, and the metadata is mana
 ---
 
 ## **ðŸ”„ Airflow DAG Details**
+
+The Airflow DAG orchestrates the entire pipeline, ensuring data flows through the Bronze, Silver, and Gold layers. Below are the key tasks and their dependencies:
+
+- **Tasks:**
+  1. **Generate Sales Data:** Simulates sales transactions and stores them in the Bronze layer.
+  2. **Ingest to Bronze:** Moves raw JSON data to the Bronze layer in MinIO.
+  3. **Process to Silver:** Cleans and deduplicates data, storing it in Delta Lake's Silver layer.
+  4. **Validate Silver Data:** Runs Soda Core checks to ensure data quality.
+  5. **Aggregate to Gold:** Creates business-critical tables (e.g., `daily_sales_summary`, `product_performance`, `customer_segments`) in the Gold layer.
+
+- **Dependencies:**
+  - The `Process to Silver` task depends on the successful completion of `Ingest to Bronze`.
+  - The `Validate Silver Data` task must complete before `Aggregate to Gold` begins.
+
+The DAG is scheduled to run hourly, ensuring timely updates to the data pipeline. Each task is idempotent, allowing safe re-runs in case of failures.
+
+---
+
