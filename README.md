@@ -646,3 +646,21 @@ The DAG is scheduled to run hourly, ensuring timely updates to the data pipeline
 
 ---
 
+## **ðŸ› Troubleshooting**
+
+### **Issue: Services not starting**
+
+```bash
+# Check service status
+docker-compose ps
+
+# View logs
+docker-compose logs -f [service_name]
+
+# Restart all services
+docker-compose down && docker-compose up -d
+```
+
+### **Issue: Airflow DAG not appearing**
+
+```bash
