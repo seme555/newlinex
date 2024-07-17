@@ -736,3 +736,21 @@ Contributions are welcome! Please feel free to submit issues or pull requests.
 **Development Setup:**
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run tests (when available)
+5. Commit changes (`git commit -m 'add awesome feature'`)
+6. Push to branch (`git push origin feature/awesome-feature`)
+7. Open a Pull Request
+
+---
+
+## **ðŸ“œ License**
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## **ðŸ™Œ Acknowledgments**
+
+- **Apache Airflow** team for the orchestration framework
+- **DuckDB** team for the blazing-fast analytical database
