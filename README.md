@@ -754,3 +754,20 @@ This project is licensed under the [MIT License](LICENSE).
 
 - **Apache Airflow** team for the orchestration framework
 - **DuckDB** team for the blazing-fast analytical database
+- **Delta Lake** team for ACID transactions on data lakes
+- **Trino** community for the distributed query engine
+- **Metabase** team for the beautiful BI tool
+- **Soda** team for data quality checks
+- **Marquez** team for lineage tracking
+- All open-source contributors
+
+---
+
+## **ðŸ“ž Contact & Support**
+
+- **GitHub Issues:** [Report bugs or request features](https://github.com/seme555/newlinex/issues)
+- **Email:** semeabe@gmail.com
+
+---
+
+### **â­ If you found this helpful, please give it a star!**
