@@ -718,3 +718,21 @@ docker-compose logs -f metabase-setup
 
 ---
 
+## **ðŸš€ Future**
+
+- [ ] Implement CDC (Change Data Capture) for dimension tables
+- [ ] Add alerting with Slack for pipeline failures
+- [ ] Create maintenance DAG for VACUUM and OPTIMIZE on Gold tables
+- [ ] Add data cataloging 
+- [ ] Introduce machine learning features (churn prediction, demand forecasting)
+- [ ] Implement incremental materialized views in Gold layer
+
+---
+
+## **ðŸ¤ Contributing**
+
+Contributions are welcome! Please feel free to submit issues or pull requests.
+
+**Development Setup:**
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
