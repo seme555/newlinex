@@ -34,3 +34,6 @@ data_quality:
 observability:
   metrics_enabled: true
   job_name: "sales_pipeline"
+  prometheus_pushgateway: "prometheus-pushgateway:9091"
+  log_level: "INFO"
+  fail_on_error: false
