@@ -1,0 +1,18 @@
+pipeline:
+  name: "sales_delta_pipeline"
+  schedule: "@hourly"
+  start_date: "2025-01-01"
+  catchup: false
+  retries: 1
+  retry_delay_minutes: 1
+
+data_generation:
+  sales_records_per_run: 100
+  num_products: 50
+  num_customers: 1000
+  num_stores: 20
+
+aggregation:
+  trigger_hour: 0  # UTC hour for daily aggregation
+
+storage:
