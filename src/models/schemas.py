@@ -34,3 +34,21 @@ class Sale(BaseModel):
         return v
     
     @validator('status')
+    def validate_status(cls, v):
+        """Validate transaction status."""
+        valid_statuses = ['completed', 'pending', 'cancelled']
+        if v not in valid_statuses:
+            raise ValueError(f'Invalid status: {v}')
+        return v
+
+
+class Product(BaseModel):
+    """Product dimension schema."""
+    product_id: int = Field(gt=0)
+    product_name: str
+    category: str
+    base_price: float = Field(gt=0)
+    stock_quantity: int = Field(ge=0)
+
+
+class Customer(BaseModel):
