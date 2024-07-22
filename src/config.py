@@ -52,3 +52,21 @@ class Config:
         elif isinstance(config, list):
             return [cls._replace_env_vars(item) for item in config]
         elif isinstance(config, str) and config.startswith("${") and config.endswith("}"):
+            var_name = config[2:-1]
+            return os.getenv(var_name, config)
+        return config
+    
+    @classmethod
+    def get(cls, *keys, default=None):
+        """Get configuration value by nested keys."""
+        value = cls._config
+        for key in keys:
+            if isinstance(value, dict):
+                value = value.get(key)
+            else:
+                return default
+            if value is None:
+                return default
+        return value
+
+
