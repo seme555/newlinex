@@ -34,3 +34,21 @@ class Config:
         required_keys = [
             ('s3', 'endpoint'),
             ('s3', 'access_key'),
+            ('s3', 'secret_key'),
+            ('storage', 'bronze_bucket'),
+            ('storage', 'silver_bucket'),
+            ('storage', 'gold_bucket'),
+        ]
+        
+        for keys in required_keys:
+            if cls.get(*keys) is None:
+                raise ValueError(f"Missing required config: {'.'.join(keys)}")
+    
+    @classmethod
+    def _replace_env_vars(cls, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Recursively replace ${VAR} with environment variables."""
+        if isinstance(config, dict):
+            return {k: cls._replace_env_vars(v) for k, v in config.items()}
+        elif isinstance(config, list):
+            return [cls._replace_env_vars(item) for item in config]
+        elif isinstance(config, str) and config.startswith("${") and config.endswith("}"):
