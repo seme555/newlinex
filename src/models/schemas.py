@@ -52,3 +52,20 @@ class Product(BaseModel):
 
 
 class Customer(BaseModel):
+    """Customer dimension schema."""
+    customer_id: int = Field(gt=0)
+    customer_name: str
+    email: str
+    phone: str
+    city: str
+    country: str
+    signup_date: str
+    customer_segment: str
+    
+    @validator('customer_segment')
+    def validate_segment(cls, v):
+        """Validate customer segment."""
+        valid_segments = ['Premium', 'Regular', 'New']
+        if v not in valid_segments:
+            raise ValueError(f'Invalid segment: {v}')
+        return v
