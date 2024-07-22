@@ -16,3 +16,21 @@ class Sale(BaseModel):
     payment_method: str
     store_id: int = Field(gt=0)
     status: str
+
+    @validator('total_amount')
+    def validate_total(cls, v, values):
+        """Ensure total_amount matches quantity * unit_price."""
+        expected = values.get('quantity', 0) * values.get('unit_price', 0)
+        if abs(v - expected) > 0.01:
+            raise ValueError(f'Total amount mismatch: {v} != {expected}')
+        return v
+    
+    @validator('payment_method')
+    def validate_payment_method(cls, v):
+        """Validate payment method."""
+        valid_methods = ['credit_card', 'debit_card', 'cash', 'digital_wallet']
+        if v not in valid_methods:
+            raise ValueError(f'Invalid payment method: {v}')
+        return v
+    
+    @validator('status')
