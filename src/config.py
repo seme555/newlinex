@@ -70,3 +70,7 @@ class Config:
         return value
 
 
+# Convenience function
+def get_config(*keys, default=None):
+    """Get configuration value."""
+    return Config().get(*keys, default=default)
