@@ -16,3 +16,21 @@ class DuckDBClient:
         """Context manager entry."""
         self.conn = self._create_connection()
         return self.conn
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit."""
+        if self.conn:
+            self.conn.close()
+    
+    def _create_connection(self):
+        """Create configured DuckDB connection."""
+        conn = duckdb.connect(database=":memory:")
+        
+        # Install and load extensions
+        conn.execute("INSTALL httpfs;")
+        conn.execute("LOAD httpfs;")
+        
+        # Configure S3
+        endpoint = get_config('s3', 'endpoint')
+        access_key = get_config('s3', 'access_key')
+        secret_key = get_config('s3', 'secret_key')
