@@ -34,3 +34,14 @@ class DuckDBClient:
         endpoint = get_config('s3', 'endpoint')
         access_key = get_config('s3', 'access_key')
         secret_key = get_config('s3', 'secret_key')
+        region = get_config('s3', 'region')
+        
+        conn.execute(f"SET s3_region = '{region}';")
+        conn.execute(f"SET s3_access_key_id = '{access_key}';")
+        conn.execute(f"SET s3_secret_access_key = '{secret_key}';")
+        conn.execute(f"SET s3_endpoint = '{endpoint}';")
+        conn.execute("SET s3_url_style = 'path';")
+        conn.execute("SET s3_use_ssl = false;")
+        
+        logger.info("DuckDB connection configured")
+        return conn
