@@ -88,3 +88,9 @@ def track_quality_failure(check_name: str):
     push_metrics(grouping_key={'check': check_name})
 
 
+def track_table_size(table_name: str, row_count: int):
+    """Track Delta table size."""
+    DELTA_TABLE_SIZE.labels(table_name=table_name).set(row_count)
+    logger.info(f"Table {table_name} has {row_count} rows")
+
+    push_metrics()
