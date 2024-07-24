@@ -16,3 +16,21 @@ JOB_NAME = get_config('observability', 'job_name', default='sales_pipeline')
 # Metrics registry
 registry = CollectorRegistry()
 
+# Define custom metrics
+RECORDS_PROCESSED = Counter(
+    'pipeline_records_processed_total',
+    'Total number of records processed',
+    ['layer', 'table'],
+    registry=registry
+)
+
+DATA_QUALITY_FAILURES = Counter(
+    'pipeline_data_quality_failures_total',
+    'Total number of data quality check failures',
+    ['check_name'],
+    registry=registry
+)
+
+DELTA_TABLE_SIZE = Gauge(
+    'pipeline_delta_table_rows',
+    'Number of rows in Delta table',
