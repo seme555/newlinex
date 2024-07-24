@@ -34,3 +34,21 @@ DATA_QUALITY_FAILURES = Counter(
 DELTA_TABLE_SIZE = Gauge(
     'pipeline_delta_table_rows',
     'Number of rows in Delta table',
+    ['table_name'],
+    registry=registry
+)
+
+TASK_STATUS = Counter(
+    'pipeline_task_status_total',
+    'Task execution status',
+    ['layer', 'operation', 'status'],
+    registry=registry
+)
+
+
+def push_metrics(grouping_key: Optional[dict] = None):
+    """Push metrics to Pushgateway with optional grouping key.
+    
+    Args:
+        grouping_key: Dictionary of labels to use as grouping key.
+                     This prevents last-write-wins by keeping metrics separate.
