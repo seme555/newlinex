@@ -70,3 +70,21 @@ def push_metrics(grouping_key: Optional[dict] = None):
         # Don't raise - we don't want metric failures to break the pipeline
 
 
+def track_records(layer: str, table: str, count: int):
+    """Track number of records processed."""
+    RECORDS_PROCESSED.labels(layer=layer, table=table).inc(count)
+    logger.info(f"Processed {count} records in {layer}/{table}")
+    
+    # Use layer and table as grouping key to prevent overwrites
+    push_metrics(grouping_key={'layer': layer, 'table': table})
+
+
+def track_quality_failure(check_name: str):
+    """Track data quality failures."""
+    DATA_QUALITY_FAILURES.labels(check_name=check_name).inc()
+    logger.warning(f"Quality check failed: {check_name}")
+    
+    # Use check_name as grouping key
+    push_metrics(grouping_key={'check': check_name})
+
+
