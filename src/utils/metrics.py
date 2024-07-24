@@ -52,3 +52,21 @@ def push_metrics(grouping_key: Optional[dict] = None):
     Args:
         grouping_key: Dictionary of labels to use as grouping key.
                      This prevents last-write-wins by keeping metrics separate.
+    """
+    try:
+        if grouping_key:
+            push_to_gateway(
+                PUSHGATEWAY_URL, 
+                job=JOB_NAME, 
+                registry=registry,
+                grouping_key=grouping_key
+            )
+            logger.info(f"Pushed metrics to {PUSHGATEWAY_URL} (grouping: {grouping_key})")
+        else:
+            push_to_gateway(PUSHGATEWAY_URL, job=JOB_NAME, registry=registry)
+            logger.info(f"Pushed metrics to {PUSHGATEWAY_URL}")
+    except Exception as e:
+        logger.error(f"Failed to push metrics: {e}", exc_info=True)
+        # Don't raise - we don't want metric failures to break the pipeline
+
+
