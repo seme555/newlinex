@@ -52,3 +52,21 @@ class SalesDataGenerator:
                 "store_id": random.randint(1, self.num_stores),
                 "status": random.choice(["completed", "pending", "cancelled"]),
             }
+
+            # Introduce realistic data quality issues (20% of records)
+            if random.random() < 0.20:
+                issue_type = random.choice([
+                    'null_customer',
+                    'invalid_product',
+                    'negative_amount',
+                    'future_date',
+                    'invalid_status',
+                    'zero_quantity',
+                    'mismatched_total',
+                    'invalid_payment',
+                    'null_timestamp'
+                ])
+
+                if issue_type == 'null_customer':
+                    sale['customer_id'] = None
+
