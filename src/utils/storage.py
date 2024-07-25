@@ -34,3 +34,21 @@ class StorageClient:
             logger.info(f"Uploaded to s3://{bucket}/{key}")
         except Exception as e:
             logger.error(f"Failed to upload to s3://{bucket}/{key}: {e}")
+            raise
+    
+    def upload_parquet(self, bucket: str, key: str, data: bytes) -> None:
+        """Upload Parquet data to S3."""
+        try:
+            self.client.put_object(
+                Bucket=bucket,
+                Key=key,
+                Body=data
+            )
+            logger.info(f"Uploaded to s3://{bucket}/{key}")
+        except Exception as e:
+            logger.error(f"Failed to upload to s3://{bucket}/{key}: {e}")
+            raise
+    
+    def object_exists(self, bucket: str, key: str) -> bool:
+        """Check if object exists in S3."""
+        try:
