@@ -52,3 +52,18 @@ class StorageClient:
     def object_exists(self, bucket: str, key: str) -> bool:
         """Check if object exists in S3."""
         try:
+            self.client.head_object(Bucket=bucket, Key=key)
+            return True
+        except Exception:
+            return False
+    
+    def get_storage_options(self) -> Dict[str, str]:
+        """Get storage options for Delta Lake."""
+        return {
+            "AWS_ACCESS_KEY_ID": self.access_key,
+            "AWS_SECRET_ACCESS_KEY": self.secret_key,
+            "AWS_ENDPOINT_URL": self.endpoint_url,
+            "AWS_REGION": get_config('s3', 'region'),
+            "AWS_S3_ALLOW_UNSAFE_RENAME": "true",
+            "AWS_ALLOW_HTTP": "true",
+        }
