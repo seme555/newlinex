@@ -16,3 +16,21 @@ class StorageClient:
         self.access_key = get_config('s3', 'access_key')
         self.secret_key = get_config('s3', 'secret_key')
         
+        self.client = boto3.client(
+            "s3",
+            endpoint_url=self.endpoint_url,
+            aws_access_key_id=self.access_key,
+            aws_secret_access_key=self.secret_key,
+        )
+    
+    def upload_json(self, bucket: str, key: str, data: Any) -> None:
+        """Upload JSON data to S3."""
+        try:
+            self.client.put_object(
+                Bucket=bucket,
+                Key=key,
+                Body=json.dumps(data).encode("utf-8")
+            )
+            logger.info(f"Uploaded to s3://{bucket}/{key}")
+        except Exception as e:
+            logger.error(f"Failed to upload to s3://{bucket}/{key}: {e}")
