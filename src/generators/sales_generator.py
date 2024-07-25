@@ -16,3 +16,21 @@ class SalesDataGenerator:
     def __init__(self):
         # Use different seed each time for variety
         self.fake = Faker()
+        self.fake.add_provider(Provider)
+        Faker.seed(int(datetime.utcnow().timestamp()))
+        random.seed(int(datetime.utcnow().timestamp()))
+        self.num_products = get_config('data_generation', 'num_products', default=50)
+        self.num_customers = get_config('data_generation', 'num_customers', default=1000)
+        self.num_stores = get_config('data_generation', 'num_stores', default=20)
+
+    def generate_sales(self, num_records: int = None) -> List[Dict]:
+        """Generate incremental sales transactions with realistic data quality issues."""
+        if num_records is None:
+            num_records = get_config('data_generation', 'sales_records_per_run', default=100)
+
+        sales = []
+        base_time = datetime.utcnow()
+
+        for i in range(num_records):
+            quantity = random.randint(1, 10)
+            unit_price = round(random.uniform(10.0, 500.0), 2)
