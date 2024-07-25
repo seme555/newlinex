@@ -34,3 +34,21 @@ class SalesDataGenerator:
         for i in range(num_records):
             quantity = random.randint(1, 10)
             unit_price = round(random.uniform(10.0, 500.0), 2)
+
+            # Base sale record
+            sale = {
+                "transaction_id": self.fake.uuid4(),  # Always unique
+                "customer_id": int(random.randint(1, self.num_customers)),
+                "product_id": random.randint(1, self.num_products),
+                "quantity": quantity,
+                "unit_price": unit_price,
+                "total_amount": round(quantity * unit_price, 2),
+                "transaction_timestamp": (
+                    base_time - timedelta(minutes=random.randint(0, 1440))  # Last 24 hours
+                ).isoformat(),
+                "payment_method": random.choice([
+                    "credit_card", "debit_card", "cash", "digital_wallet"
+                ]),
+                "store_id": random.randint(1, self.num_stores),
+                "status": random.choice(["completed", "pending", "cancelled"]),
+            }
