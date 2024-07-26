@@ -88,3 +88,21 @@ class SalesDataGenerator:
                 elif issue_type == 'zero_quantity':
                     sale['quantity'] = 0
 
+                elif issue_type == 'mismatched_total':
+                    # Total doesn't match quantity * unit_price
+                    sale['total_amount'] = round(random.uniform(1.0, 1000.0), 2)
+
+                elif issue_type == 'invalid_payment':
+                    sale['payment_method'] = random.choice(['', None, 'INVALID', 'bitcoin'])
+
+                elif issue_type == 'null_timestamp':
+                    sale['transaction_timestamp'] = None
+
+                logger.debug(f"Injected data quality issue: {issue_type}")
+
+            sales.append(sale)
+
+        logger.info(f"Generated {len(sales)} sales transactions (with ~20% dirty data)")
+        return sales
+
+    def generate_products(self) -> List[Dict]:
