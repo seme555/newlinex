@@ -106,3 +106,21 @@ class SalesDataGenerator:
         return sales
 
     def generate_products(self) -> List[Dict]:
+        """Generate product catalog."""
+        products = []
+        for i in range(1, self.num_products + 1):
+            products.append({
+                "product_id": i,
+                "product_name": self.fake.ecommerce_name(),
+                "category": self.fake.ecommerce_category(),
+                "base_price": round(random.uniform(10.0, 500.0), 2),
+                "stock_quantity": random.randint(0, 1000),
+            })
+
+        logger.info(f"Generated {len(products)} products")
+        return products
+
+    def generate_customers(self) -> List[Dict]:
+        """Generate customer dimension."""
+        customers = []
+        for i in range(1, self.num_customers + 1):
