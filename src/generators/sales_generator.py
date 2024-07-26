@@ -124,3 +124,18 @@ class SalesDataGenerator:
         """Generate customer dimension."""
         customers = []
         for i in range(1, self.num_customers + 1):
+            customers.append({
+                "customer_id": int(i),
+                "customer_name": self.fake.name(),
+                "email": self.fake.email(),
+                "phone": self.fake.phone_number(),
+                "city": self.fake.city(),
+                "country": self.fake.country(),
+                "signup_date": self.fake.date_between(
+                    start_date="-2y", end_date="today"
+                ).isoformat(),
+                "customer_segment": random.choice(["Premium", "Regular", "New"]),
+            })
+
+        logger.info(f"Generated {len(customers)} customers")
+        return customers
