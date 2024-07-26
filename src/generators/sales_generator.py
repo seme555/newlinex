@@ -70,3 +70,21 @@ class SalesDataGenerator:
                 if issue_type == 'null_customer':
                     sale['customer_id'] = None
 
+                elif issue_type == 'invalid_product':
+                    # Product ID outside valid range
+                    sale['product_id'] = random.randint(9000, 9999)
+
+                elif issue_type == 'negative_amount':
+                    sale['total_amount'] = -abs(sale['total_amount'])
+
+                elif issue_type == 'future_date':
+                    sale['transaction_timestamp'] = (
+                        base_time + timedelta(days=random.randint(1, 30))
+                    ).isoformat()
+
+                elif issue_type == 'invalid_status':
+                    sale['status'] = random.choice(['UNKNOWN', 'ERROR', '', None])
+
+                elif issue_type == 'zero_quantity':
+                    sale['quantity'] = 0
+
