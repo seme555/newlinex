@@ -34,3 +34,21 @@ class BaseProcessor(ABC):
     
     @abstractmethod
     def process(self, **kwargs) -> Dict[str, Any]:
+        """
+        Main processing logic - must be implemented by subclasses.
+        
+        Returns:
+            Dict with processing results (status, counts, metadata)
+        """
+        pass
+    
+    def _track_metrics(
+        self, 
+        layer: str, 
+        table: str, 
+        count: int,
+        additional_labels: Optional[Dict[str, str]] = None
+    ) -> None:
+        """Shared metric tracking logic."""
+        track_records(layer=layer, table=table, count=count)
+        
