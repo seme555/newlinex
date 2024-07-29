@@ -16,3 +16,21 @@ class BaseProcessor(ABC):
     - Shared authentication/storage logic
     - Consistent error handling
     - Standardized metric tracking
+    """
+    
+    def __init__(self):
+        self.storage = StorageClient()
+        self.logger = get_logger(self.__class__.__name__)
+        self._validate_config()
+        self.logger.info(f"âœ“ Initialized {self.__class__.__name__}")
+    
+    @abstractmethod
+    def _validate_config(self) -> None:
+        """
+        Validate processor-specific configuration.
+        Must be implemented by subclasses.
+        """
+        pass
+    
+    @abstractmethod
+    def process(self, **kwargs) -> Dict[str, Any]:
