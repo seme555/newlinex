@@ -52,3 +52,21 @@ class BaseProcessor(ABC):
         """Shared metric tracking logic."""
         track_records(layer=layer, table=table, count=count)
         
+        grouping_key = {'layer': layer, 'table': table}
+        if additional_labels:
+            grouping_key.update(additional_labels)
+        
+        push_metrics(grouping_key=grouping_key)
+        self.logger.info(f"âœ“ Tracked {count} records for {layer}/{table}")
+    
+    def _handle_error(self, error: Exception, context: str) -> None:
+        """
+        Standardized error handling across all processors.
+        
+        Args:
+            error: The exception that occurred
+            context: Description of where the error happened
+        """
+        self.logger.error(
+            f"Error in {context}: {type(error).__name__}: {error}",
+            exc_info=True
