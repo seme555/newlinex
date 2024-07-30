@@ -70,3 +70,13 @@ class BaseProcessor(ABC):
         self.logger.error(
             f"Error in {context}: {type(error).__name__}: {error}",
             exc_info=True
+        )
+        # Future: Add alerting logic here (PagerDuty, Slack, etc.)
+        raise
+    
+    def _get_bucket(self, layer: str) -> str:
+        """Get bucket name for a specific layer."""
+        bucket = get_config('storage', f'{layer}_bucket')
+        if not bucket:
+            raise ValueError(f"Bucket not configured for layer: {layer}")
+        return bucket
