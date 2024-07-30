@@ -34,3 +34,21 @@ class BronzeProcessor(BaseProcessor):
             sales_data = self.generator.generate_sales()
             
             if not sales_data:
+                self.logger.warning("No sales data generated")
+                return {"key": None, "count": 0, "status": "skipped"}
+            
+            # Create timestamped key for incremental loading
+            timestamp = datetime.utcnow()
+            timestamp_str = timestamp.strftime("%Y%m%d_%H%M%S")
+            key = f"sales/sales_{timestamp_str}.json"
+            
+            # Upload to Bronze (NO VALIDATION - accept dirty data)
+            self.storage.upload_json(
+                bucket=self.bronze_bucket,
+                key=key,
+                data=sales_data
+            )
+            
+            # Track metrics
+            self._track_metrics(
+                layer='bronze',
