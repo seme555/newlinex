@@ -16,3 +16,21 @@ class BronzeProcessor(BaseProcessor):
         """Validate Bronze-specific configuration."""
         self.bronze_bucket = self._get_bucket('bronze')
         self.generator = SalesDataGenerator()
+        self.logger.info(f"Bronze bucket: {self.bronze_bucket}")
+    
+    def process(self, **kwargs) -> Dict[str, Any]:
+        """
+        Ingest sales data to Bronze layer.
+        
+        Returns:
+            {
+                "key": "s3_key_path",
+                "count": record_count,
+                "timestamp": "2024-01-01T12:00:00"
+            }
+        """
+        try:
+            # Generate sales data (with intentional dirty data)
+            sales_data = self.generator.generate_sales()
+            
+            if not sales_data:
