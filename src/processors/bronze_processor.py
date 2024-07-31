@@ -88,3 +88,21 @@ class BronzeProcessor(BaseProcessor):
                 return {
                     "status": "skipped",
                     "reason": "already_exists"
+                }
+            
+            # Generate dimension data
+            products = self.generator.generate_products()
+            customers = self.generator.generate_customers()
+            
+            # Validate dimensions (unlike sales, dimensions should be clean)
+            validated_products = [Product(**p).dict() for p in products]
+            validated_customers = [Customer(**c).dict() for c in customers]
+            
+            # Upload to Bronze
+            self.storage.upload_json(
+                bucket=self.bronze_bucket,
+                key=products_key,
+                data=validated_products
+            )
+            
+            self.storage.upload_json(
