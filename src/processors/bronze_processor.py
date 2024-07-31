@@ -52,3 +52,21 @@ class BronzeProcessor(BaseProcessor):
             # Track metrics
             self._track_metrics(
                 layer='bronze',
+                table='sales',
+                count=len(sales_data)
+            )
+            
+            self.logger.info(
+                f"âœ“ Ingested {len(sales_data)} sales records to {key}"
+            )
+            
+            return {
+                "key": key,
+                "count": len(sales_data),
+                "timestamp": timestamp.isoformat(),
+                "status": "success"
+            }
+            
+        except Exception as e:
+            self._handle_error(e, "bronze_sales_ingestion")
+    
