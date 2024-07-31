@@ -106,3 +106,20 @@ class BronzeProcessor(BaseProcessor):
             )
             
             self.storage.upload_json(
+                bucket=self.bronze_bucket,
+                key=customers_key,
+                data=validated_customers
+            )
+            
+            self.logger.info(
+                f"âœ“ Loaded {len(products)} products and {len(customers)} customers"
+            )
+            
+            return {
+                "status": "loaded",
+                "products": len(products),
+                "customers": len(customers)
+            }
+            
+        except Exception as e:
+            self._handle_error(e, "dimension_loading")
