@@ -70,3 +70,21 @@ class BronzeProcessor(BaseProcessor):
         except Exception as e:
             self._handle_error(e, "bronze_sales_ingestion")
     
+    def load_dimensions(self) -> Dict[str, Any]:
+        """
+        Load dimension tables (products and customers).
+        Idempotent - skips if already loaded.
+        
+        Returns:
+            {"status": "loaded" | "skipped", "products": int, "customers": int}
+        """
+        try:
+            # Check if dimensions already exist (idempotency)
+            products_key = "dimensions/products.json"
+            customers_key = "dimensions/customers.json"
+            
+            if self.storage.object_exists(self.bronze_bucket, products_key):
+                self.logger.info("âœ“ Dimensions already loaded, skipping")
+                return {
+                    "status": "skipped",
+                    "reason": "already_exists"
