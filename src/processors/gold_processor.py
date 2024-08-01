@@ -52,3 +52,21 @@ class GoldProcessor(BaseProcessor):
             if sales_df is None or len(sales_df) == 0:
                 self.logger.warning("No Silver data available, skipping aggregation")
                 return {
+                    "status": "skipped",
+                    "reason": "no_silver_data"
+                }
+            
+            # Define aggregations to run in parallel
+            aggregations: List[tuple[str, Callable]] = [
+                ('daily_sales_summary', lambda: self._aggregate_daily_sales(sales_df, date)),
+                ('product_performance', lambda: self._aggregate_product_performance(sales_df, date)),
+                ('customer_segments', lambda: self._aggregate_customer_segments(sales_df, date)),
+            ]
+            
+            # Execute aggregations in parallel
+            results = self._execute_parallel_aggregations(aggregations)
+            
+            # Determine overall status
+            overall_status = "success" if all(
+                r.get("status") == "success" for r in results.values()
+            ) else "partial_failure"
