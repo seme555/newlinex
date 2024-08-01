@@ -70,3 +70,21 @@ class GoldProcessor(BaseProcessor):
             overall_status = "success" if all(
                 r.get("status") == "success" for r in results.values()
             ) else "partial_failure"
+            
+            results["overall_status"] = overall_status
+            
+            success_count = len([
+                r for k, r in results.items()
+                if k != "overall_status" and isinstance(r, dict) and r.get("status") == "success"
+            ])
+            self.logger.info(
+                f"âœ“ Gold aggregation complete: {overall_status} "
+                f"({success_count} of {len(aggregations)} succeeded)"
+            )
+        
+            return results
+            
+        except Exception as e:
+            self._handle_error(e, "gold_aggregation")
+    
+    def _load_silver_data(self, date: str = None) -> Optional[pa.Table]:
