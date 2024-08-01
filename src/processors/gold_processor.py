@@ -88,3 +88,21 @@ class GoldProcessor(BaseProcessor):
             self._handle_error(e, "gold_aggregation")
     
     def _load_silver_data(self, date: str = None) -> Optional[pa.Table]:
+        """Load only today's partition for incremental aggregation."""
+        silver_path = f"s3://{self.silver_bucket}/sales"
+        
+        if date is None:
+            date = datetime.utcnow().strftime("%Y-%m-%d")
+        
+        try:
+            dt = DeltaTable(silver_path, storage_options=self.storage_options)
+            
+            sales_arrow = dt.to_pyarrow_table(
+                filters=[("partition_date", "=", date)]
+            )
+            
+            self.logger.info(
+                f"Loaded {sales_arrow.num_rows} records for partition_date={date}"
+            )
+            return sales_arrow
+            
