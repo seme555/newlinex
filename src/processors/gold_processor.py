@@ -196,3 +196,21 @@ class GoldProcessor(BaseProcessor):
                 table_name='daily_sales_summary',
                 arrow_table=result_arrow,
                 merge_keys=['data_date'],
+                partition_by=['partition_date']
+            )
+            
+            return {"status": "success", "rows": result_arrow.num_rows}
+            
+        except Exception as e:
+            self.logger.error(f"Failed daily_sales_summary: {e}")
+            raise
+    
+    def _aggregate_product_performance(
+        self, 
+        sales_arrow: pa.Table,
+        date: str
+    ) -> Dict[str, Any]:
+        """Calculate and write product performance."""
+        try:
+            products_path = f"s3://{self.bronze_bucket}/dimensions/products.json"
+            
