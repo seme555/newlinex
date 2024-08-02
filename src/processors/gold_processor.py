@@ -160,3 +160,21 @@ class GoldProcessor(BaseProcessor):
         
         return results
     
+    def _aggregate_daily_sales(
+        self, 
+        sales_arrow: pa.Table,
+        date: str
+    ) -> Dict[str, Any]:
+        try:
+            with DuckDBClient() as conn:
+                conn.register('sales', sales_arrow)
+                
+                result_arrow = conn.execute(f"""
+                    SELECT 
+                        partition_date,
+                        COUNT(DISTINCT transaction_id) as total_transactions,
+                        COUNT(DISTINCT customer_id) as unique_customers,
+                        SUM(total_amount) as total_revenue,
+                        AVG(total_amount) as avg_transaction_value,
+                        SUM(quantity) as total_items_sold,
+                        COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_transactions,
