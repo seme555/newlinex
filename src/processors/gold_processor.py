@@ -214,3 +214,21 @@ class GoldProcessor(BaseProcessor):
         try:
             products_path = f"s3://{self.bronze_bucket}/dimensions/products.json"
             
+            with DuckDBClient() as conn:
+                conn.register('sales', sales_arrow)
+
+                result_arrow = conn.execute(f"""
+                    SELECT
+                        p.product_id,
+                        p.product_name,
+                        p.category,
+                        COUNT(s.transaction_id) as transaction_count,
+                        SUM(s.quantity) as units_sold,
+                        SUM(s.total_amount) as revenue,
+                        AVG(s.unit_price) as avg_selling_price,
+                        MIN(s.unit_price) as min_price,
+                        MAX(s.unit_price) as max_price,
+                        '{date}' as data_date,
+                        CURRENT_TIMESTAMP as created_at
+                    FROM sales s
+                    JOIN read_json_auto('{products_path}') p
