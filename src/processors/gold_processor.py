@@ -178,3 +178,21 @@ class GoldProcessor(BaseProcessor):
                         AVG(total_amount) as avg_transaction_value,
                         SUM(quantity) as total_items_sold,
                         COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_transactions,
+                        COUNT(CASE WHEN status = 'cancelled' THEN 1 END) as cancelled_transactions,
+                        ROUND(100.0 * COUNT(CASE WHEN status = 'completed' THEN 1 END) /
+                            NULLIF(COUNT(*), 0), 2) as completion_rate,
+                        CURRENT_TIMESTAMP as created_at,
+                        '{date}' as data_date
+                    FROM sales
+                    WHERE partition_date = '{date}'
+                    GROUP BY partition_date
+                """).arrow()
+            
+            if result_arrow.num_rows == 0:
+                self.logger.warning("No data for daily_sales_summary")
+                return {"status": "skipped", "rows": 0}
+            
+            self._upsert_to_delta(
+                table_name='daily_sales_summary',
+                arrow_table=result_arrow,
+                merge_keys=['data_date'],
