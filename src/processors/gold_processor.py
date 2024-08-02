@@ -124,3 +124,21 @@ class GoldProcessor(BaseProcessor):
         Execute multiple aggregations in parallel using ThreadPoolExecutor.
         
         Args:
+            aggregations: List of (name, function) tuples
+        
+        Returns:
+            Dict mapping aggregation name to result
+        """
+        results = {}
+        
+        # Use ThreadPoolExecutor for parallel processing
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            # Submit all aggregations
+            future_to_agg = {
+                executor.submit(agg_func): name 
+                for name, agg_func in aggregations
+            }
+            
+            # Collect results as they complete
+            for future in as_completed(future_to_agg):
+                agg_name = future_to_agg[future]
