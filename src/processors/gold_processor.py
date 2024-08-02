@@ -106,3 +106,21 @@ class GoldProcessor(BaseProcessor):
             )
             return sales_arrow
             
+        except TableNotFoundError:
+            self.logger.warning("Silver table does not exist yet")
+            return None
+            
+        except Exception as e:
+            self.logger.error(
+                f"Failed to load Silver table: {type(e).__name__}: {e}"
+            )
+            raise
+    
+    def _execute_parallel_aggregations(
+        self, 
+        aggregations: List[tuple[str, Callable]]
+    ) -> Dict[str, Dict[str, Any]]:
+        """
+        Execute multiple aggregations in parallel using ThreadPoolExecutor.
+        
+        Args:
