@@ -142,3 +142,21 @@ class GoldProcessor(BaseProcessor):
             # Collect results as they complete
             for future in as_completed(future_to_agg):
                 agg_name = future_to_agg[future]
+                
+                try:
+                    result = future.result()
+                    results[agg_name] = result
+                    self.logger.info(f"âœ“ Completed {agg_name}")
+                    
+                except Exception as e:
+                    self.logger.error(
+                        f"Failed {agg_name}: {type(e).__name__}: {e}",
+                        exc_info=True
+                    )
+                    results[agg_name] = {
+                        "status": "failed",
+                        "error": str(e)
+                    }
+        
+        return results
+    
