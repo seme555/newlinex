@@ -250,3 +250,21 @@ class GoldProcessor(BaseProcessor):
                 partition_by=['data_date']
             )
             
+            return {"status": "success", "rows": result_arrow.num_rows}
+            
+        except Exception as e:
+            self.logger.error(f"Failed product_performance: {e}")
+            raise
+
+    def _aggregate_customer_segments(
+        self, 
+        sales_arrow: pa.Table,
+        date: str
+    ) -> Dict[str, Any]:
+        """Calculate and write customer segmentation."""
+        try:
+            customers_path = f"s3://{self.bronze_bucket}/dimensions/customers.json"
+            
+            with DuckDBClient() as conn:
+                conn.register('sales', sales_arrow)
+                
