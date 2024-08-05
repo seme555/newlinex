@@ -286,3 +286,21 @@ class GoldProcessor(BaseProcessor):
                             WHEN SUM(s.total_amount) > 500 THEN 'Medium Value'
                             ELSE 'Low Value'
                         END as value_tier,
+                        CURRENT_TIMESTAMP as created_at
+                    FROM sales s
+                    JOIN read_json_auto('{customers_path}') c
+                        ON s.customer_id = c.customer_id
+                    WHERE s.partition_date = '{date}'
+                        AND s.status = 'completed'
+                    GROUP BY c.customer_id, c.customer_name, c.customer_segment, c.city, c.country
+                    ORDER BY total_spend DESC
+                """).arrow()
+            
+            if result_arrow.num_rows == 0:
+                self.logger.warning("No data for customer_segments")
+                return {"status": "skipped", "rows": 0}
+            
+            self._upsert_to_delta(
+                table_name='customer_segments',
+                arrow_table=result_arrow,
+                merge_keys=['customer_id', 'data_date'],
