@@ -304,3 +304,21 @@ class GoldProcessor(BaseProcessor):
                 table_name='customer_segments',
                 arrow_table=result_arrow,
                 merge_keys=['customer_id', 'data_date'],
+                partition_by=['data_date']
+            )
+            
+            return {"status": "success", "rows": result_arrow.num_rows}
+            
+        except Exception as e:
+            self.logger.error(f"Failed customer_segments: {e}")
+            raise
+    
+    def _upsert_to_delta(
+        self,
+        table_name: str,
+        arrow_table: pa.Table,
+        merge_keys: List[str],
+        partition_by: Optional[List[str]] = None
+    ) -> None:
+        """
+        Upsert DataFrame to Delta table using MERGE operation.
