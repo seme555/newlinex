@@ -268,3 +268,21 @@ class GoldProcessor(BaseProcessor):
             with DuckDBClient() as conn:
                 conn.register('sales', sales_arrow)
                 
+                result_arrow = conn.execute(f"""
+                    SELECT
+                        c.customer_id,
+                        c.customer_name,
+                        c.customer_segment,
+                        c.city,
+                        c.country,
+                        COUNT(s.transaction_id) as purchase_count,
+                        SUM(s.total_amount) as total_spend,
+                        AVG(s.total_amount) as avg_order_value,
+                        MAX(s.transaction_timestamp) as last_purchase_date,
+                        MIN(s.transaction_timestamp) as first_purchase_date,
+                        '{date}' as data_date,
+                        CASE
+                            WHEN SUM(s.total_amount) > 1000 THEN 'High Value'
+                            WHEN SUM(s.total_amount) > 500 THEN 'Medium Value'
+                            ELSE 'Low Value'
+                        END as value_tier,
