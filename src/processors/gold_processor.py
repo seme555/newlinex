@@ -232,3 +232,21 @@ class GoldProcessor(BaseProcessor):
                         CURRENT_TIMESTAMP as created_at
                     FROM sales s
                     JOIN read_json_auto('{products_path}') p
+                        ON s.product_id = p.product_id
+                    WHERE s.partition_date = '{date}'
+                        AND s.status = 'completed'
+                    GROUP BY p.product_id, p.product_name, p.category
+                    ORDER BY revenue DESC
+                """).arrow()
+            
+            if result_arrow.num_rows == 0:
+                self.logger.warning("No data for product_performance")
+                return {"status": "skipped", "rows": 0}
+            
+            self._upsert_to_delta(
+                table_name='product_performance',
+                arrow_table=result_arrow,
+                merge_keys=['product_id', 'data_date'],
+                partition_by=['data_date']
+            )
+            
