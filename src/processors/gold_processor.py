@@ -376,3 +376,21 @@ class GoldProcessor(BaseProcessor):
             try:
                 write_deltalake(
                     table_path,
+                    arrow_table,
+                    mode='overwrite',
+                    partition_by=partition_by,
+                    storage_options=self.storage_options,
+                )
+                self.logger.info(
+                    f"âœ“ Created {table_name} Delta table ({arrow_table.num_rows} rows)"
+                )
+            except Exception as e:
+                self.logger.error(
+                    f"Failed to create table: {type(e).__name__}: {e}"
+                )
+                raise
+        
+        # Track total table size
+        try:
+            dt = DeltaTable(table_path, storage_options=self.storage_options)
+            total_rows = len(dt.to_pandas())
