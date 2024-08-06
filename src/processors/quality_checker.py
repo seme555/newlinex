@@ -16,3 +16,21 @@ class QualityChecker(BaseProcessor):
     
     def _validate_config(self) -> None:
         """Validate quality checker configuration."""
+        from src.config import get_config
+        
+        self.silver_bucket = self._get_bucket('silver')
+        self.storage_options = self.storage.get_storage_options()
+        self.checks_enabled = get_config('data_quality', 'enabled', default=True)
+        self.checks_path = get_config('data_quality', 'checks_path')
+        self.fail_on_error = get_config(
+            'data_quality', 
+            'fail_on_error', 
+            default=False
+        )
+        
+        if not self.checks_enabled:
+            self.logger.info("Quality checks are DISABLED")
+        else:
+            self.logger.info(
+                f"Quality checks enabled: checks_path={self.checks_path}, "
+                f"fail_on_error={self.fail_on_error}"
