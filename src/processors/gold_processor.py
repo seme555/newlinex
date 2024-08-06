@@ -340,3 +340,21 @@ class GoldProcessor(BaseProcessor):
         except Exception as e:
             self.logger.error(
                 f"Error checking table existence: {type(e).__name__}: {e}"
+            )
+            raise
+        
+        if table_exists:
+            # Build composite merge condition
+            merge_conditions = [f"target.{key} = source.{key}" for key in merge_keys]
+            merge_condition = " AND ".join(merge_conditions)
+            
+            self.logger.info(f"Merge condition: {merge_condition}")
+            
+            try:
+                (
+                    dt.merge(
+                        source=arrow_table,
+                        predicate=merge_condition,
+                        source_alias="source",
+                        target_alias="target"
+                    )
