@@ -394,3 +394,8 @@ class GoldProcessor(BaseProcessor):
         try:
             dt = DeltaTable(table_path, storage_options=self.storage_options)
             total_rows = len(dt.to_pandas())
+            track_table_size(table_name=table_name, row_count=total_rows)
+        except Exception as e:
+            self.logger.warning(
+                f"Could not track table size for {table_name}: {e}"
+            )
