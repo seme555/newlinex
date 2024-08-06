@@ -358,3 +358,21 @@ class GoldProcessor(BaseProcessor):
                         source_alias="source",
                         target_alias="target"
                     )
+                    .when_matched_update_all()
+                    .when_not_matched_insert_all()
+                    .execute()
+                )
+                
+                self.logger.info(
+                    f"âœ“ Merged {arrow_table.num_rows} rows into {table_name} (idempotent)"
+                )
+                
+            except Exception as e:
+                self.logger.error(
+                    f"MERGE operation failed: {type(e).__name__}: {e}"
+                )
+                raise
+        else:
+            try:
+                write_deltalake(
+                    table_path,
