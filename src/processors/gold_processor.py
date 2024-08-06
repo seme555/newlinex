@@ -322,3 +322,21 @@ class GoldProcessor(BaseProcessor):
     ) -> None:
         """
         Upsert DataFrame to Delta table using MERGE operation.
+        Idempotent - safe to re-run.
+        
+        Args:
+            table_name: Name of the Delta table
+            arrow_table: Arrow table to upsert
+            merge_keys: List of columns for merge condition
+            partition_by: Columns to partition by
+        """
+        table_path = f"s3://{self.gold_bucket}/{table_name}"
+        
+        try:
+            dt = DeltaTable(table_path, storage_options=self.storage_options)
+            table_exists = True
+        except (TableNotFoundError, FileNotFoundError):
+            table_exists = False
+        except Exception as e:
+            self.logger.error(
+                f"Error checking table existence: {type(e).__name__}: {e}"
