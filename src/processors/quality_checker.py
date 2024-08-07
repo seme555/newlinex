@@ -106,3 +106,21 @@ class QualityChecker(BaseProcessor):
                 scan = Scan()
                 scan.add_duckdb_connection(conn)
                 scan.set_data_source_name("duckdb")
+                scan.add_sodacl_yaml_files(self.checks_path)
+                scan.set_scan_definition_name("silver_quality_check")
+                scan.execute()
+
+                total_checks = scan.get_logs_text().count("checks PASSED") + scan.get_logs_text().count("checks FAILED")
+                if total_checks == 0:
+                    # Fallback: count from scan._checks if available
+                    total_checks = len(getattr(scan, '_checks', []))
+
+                if scan.has_check_fails():
+                    failed_checks = scan.get_checks_fail()
+                    for check in failed_checks:
+                        check_name = getattr(check, 'name', 'unknown_check')
+                        track_quality_failure(check_name=check_name)
+                        self.logger.warning(f"Quality check failed: {check_name}")
+                    
+                    result = {
+                        "status": "failed",
