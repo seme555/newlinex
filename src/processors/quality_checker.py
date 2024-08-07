@@ -52,3 +52,21 @@ class QualityChecker(BaseProcessor):
             return {
                 "status": "skipped",
                 "reason": "disabled_in_config"
+            }
+        
+        try:
+            # Load Delta table
+            silver_path = f"s3://{self.silver_bucket}/sales"
+            
+            try:
+                dt = DeltaTable(silver_path, storage_options=self.storage_options)
+                df = dt.to_pandas()
+                
+                self.logger.info(
+                    f"âœ“ Loaded Silver table for validation "
+                    f"(version={dt.version()}, rows={len(df)})"
+                )
+                
+            except TableNotFoundError:
+                self.logger.warning("Silver table does not exist yet")
+                return {
