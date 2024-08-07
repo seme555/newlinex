@@ -88,3 +88,21 @@ class QualityChecker(BaseProcessor):
             
             # Run Soda checks
             result = self._run_soda_checks(df)
+            
+            return result
+            
+        except Exception as e:
+            self._handle_error(e, "quality_check_execution")
+    
+    def _run_soda_checks(self, df) -> Dict[str, Any]:
+        """
+        Execute Soda Core checks on the DataFrame.
+        Returns a result dict for process().
+        """
+        try:
+            with DuckDBClient() as conn:
+                conn.register('sales_silver', df)
+                from soda.scan import Scan
+                scan = Scan()
+                scan.add_duckdb_connection(conn)
+                scan.set_data_source_name("duckdb")
