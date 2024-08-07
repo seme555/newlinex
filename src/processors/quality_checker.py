@@ -70,3 +70,21 @@ class QualityChecker(BaseProcessor):
             except TableNotFoundError:
                 self.logger.warning("Silver table does not exist yet")
                 return {
+                    "status": "skipped",
+                    "reason": "table_not_found"
+                }
+            except Exception as e:
+                self.logger.error(f"Could not load Delta table: {e}")
+                raise
+            
+            if len(df) == 0:
+                self.logger.info("Table empty, skipping checks")
+                return {
+                    "status": "skipped",
+                    "reason": "empty_table"
+                }
+            
+            self.logger.info(f"Running quality checks on {len(df)} records")
+            
+            # Run Soda checks
+            result = self._run_soda_checks(df)
