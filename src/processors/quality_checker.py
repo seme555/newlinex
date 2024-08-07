@@ -124,3 +124,21 @@ class QualityChecker(BaseProcessor):
                     
                     result = {
                         "status": "failed",
+                        "checks_run": total_checks if total_checks > 0 else len(failed_checks),
+                        "checks_failed": len(failed_checks),
+                        "failed_checks": [getattr(check, 'name', 'unknown_check') for check in failed_checks]
+                    }
+                    
+                    if self.fail_on_error:
+                        raise ValueError(
+                            f"Quality validation failed: {len(failed_checks)} check(s) failed. "
+                            f"Failed checks: {result['failed_checks']}"
+                        )
+                    else:
+                        self.logger.warning(
+                            f"Quality checks failed but fail_on_error=False. Continuing pipeline. "
+                            f"Failed checks: {result['failed_checks']}"
+                        )
+                    
+                    return result
+                else:
