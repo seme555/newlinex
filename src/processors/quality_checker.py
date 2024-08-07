@@ -160,3 +160,6 @@ class QualityChecker(BaseProcessor):
                     "checks_run": 0,
                     "checks_failed": 0,
                     "failed_checks": [],
+                    "error": str(e)
+                }
+
