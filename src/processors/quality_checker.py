@@ -34,3 +34,21 @@ class QualityChecker(BaseProcessor):
             self.logger.info(
                 f"Quality checks enabled: checks_path={self.checks_path}, "
                 f"fail_on_error={self.fail_on_error}"
+            )
+    
+    def process(self, **kwargs) -> Dict[str, Any]:
+        """
+        Run Soda Core quality checks on Silver data.
+        
+        Returns:
+            {
+                "status": "success" | "failed" | "skipped",
+                "checks_failed": int,
+                "failed_checks": List[str]
+            }
+        """
+        if not self.checks_enabled:
+            self.logger.info("Quality checks disabled, skipping")
+            return {
+                "status": "skipped",
+                "reason": "disabled_in_config"
