@@ -142,3 +142,21 @@ class QualityChecker(BaseProcessor):
                     
                     return result
                 else:
+                    self.logger.info("âœ“ All data quality checks passed")
+                    return {
+                        "status": "success",
+                        "checks_run": total_checks if total_checks > 0 else 0,
+                        "checks_failed": 0,
+                        "failed_checks": []
+                    }
+        except Exception as e:
+            self.logger.error(f"Soda check execution failed: {e}")
+            if self.fail_on_error:
+                raise
+            else:
+                self.logger.warning(f"Soda execution error but fail_on_error=False: {e}")
+                return {
+                    "status": "error",
+                    "checks_run": 0,
+                    "checks_failed": 0,
+                    "failed_checks": [],
