@@ -34,3 +34,21 @@ class SilverProcessor(BaseProcessor):
         Process Bronze data to Silver Delta table.
         
         Args:
+            bronze_key: S3 key of the Bronze data file
+        
+        Returns:
+            {
+                "records_read": int,
+                "records_cleaned": int,
+                "records_written": int,
+                "duplicates_removed": int,
+                "status": "success"
+            }
+        """
+        try:
+            date_partition = datetime.utcnow().strftime("%Y-%m-%d")
+            bronze_path = f"s3://{self.bronze_bucket}/{bronze_key}"
+
+            with DuckDBClient() as conn:
+                arrow_table = conn.execute(f"""
+                    WITH raw_data AS (
