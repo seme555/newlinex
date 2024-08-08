@@ -52,3 +52,21 @@ class SilverProcessor(BaseProcessor):
             with DuckDBClient() as conn:
                 arrow_table = conn.execute(f"""
                     WITH raw_data AS (
+                        SELECT
+                            CAST(transaction_id AS VARCHAR) AS transaction_id,
+                            CAST(customer_id AS BIGINT) AS customer_id,
+                            CAST(product_id AS BIGINT) AS product_id,
+                            CAST(quantity AS BIGINT) AS quantity,
+                            unit_price,
+                            total_amount,
+                            CAST(transaction_timestamp AS TIMESTAMP) as transaction_timestamp,
+                            payment_method,
+                            CAST(store_id AS BIGINT) AS store_id,
+                            status,
+                            '{date_partition}' as partition_date,
+                            CURRENT_TIMESTAMP as processed_at
+                        FROM read_json_auto('{bronze_path}')
+                    ),
+                    cleaned_data AS (
+                        SELECT *
+                        FROM raw_data
