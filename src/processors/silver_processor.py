@@ -106,3 +106,21 @@ class SilverProcessor(BaseProcessor):
             records_cleaned = records_read
 
             self.logger.info(
+                f"âœ“ Cleaned data: {records_read} â†’ {records_cleaned} records "
+                f"({records_read - records_cleaned} removed)"
+            )
+
+            silver_path = f"s3://{self.silver_bucket}/sales"
+            arrow_to_write, duplicates_removed = self._deduplicate(
+                arrow_table,
+                silver_path
+            )
+
+            records_written = 0
+            if arrow_to_write is not None and arrow_to_write.num_rows > 0:
+                self._write_to_delta(arrow_to_write, silver_path)
+                records_written = arrow_to_write.num_rows
+
+                # Track metrics
+                self._track_metrics(
+                    layer='silver',
