@@ -124,3 +124,21 @@ class SilverProcessor(BaseProcessor):
                 # Track metrics
                 self._track_metrics(
                     layer='silver',
+                    table='sales',
+                    count=records_written
+                )
+            else:
+                self.logger.info("âŠ˜ No new records to write")
+            
+            return {
+                "records_read": records_read,
+                "records_cleaned": records_cleaned,
+                "records_written": records_written,
+                "duplicates_removed": duplicates_removed,
+                "partition_date": date_partition,
+                "status": "success"
+            }
+            
+        except Exception as e:
+            self._handle_error(e, "silver_processing")
+
