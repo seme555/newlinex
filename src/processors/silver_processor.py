@@ -70,3 +70,21 @@ class SilverProcessor(BaseProcessor):
                     cleaned_data AS (
                         SELECT *
                         FROM raw_data
+                        WHERE 
+                            -- Remove nulls in required fields
+                            transaction_id IS NOT NULL
+                            AND customer_id IS NOT NULL
+                            AND product_id IS NOT NULL
+                            AND transaction_timestamp IS NOT NULL
+                            
+                            -- Remove future timestamps
+                            AND transaction_timestamp <= CURRENT_TIMESTAMP
+                            
+                            -- Remove zero/negative quantities
+                            AND quantity > 0
+                            
+                            -- Remove negative amounts
+                            AND total_amount > 0
+                            
+                            -- Remove mismatched totals (0.01 tolerance)
+                            AND ABS(total_amount - (quantity * unit_price)) <= 0.01
