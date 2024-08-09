@@ -142,3 +142,21 @@ class SilverProcessor(BaseProcessor):
         except Exception as e:
             self._handle_error(e, "silver_processing")
 
+    def _deduplicate(
+        self,
+        arrow_table: pa.Table,
+        silver_path: str
+    ) -> tuple[Optional[pa.Table], int]:
+        """
+        Deduplicate records against existing Delta table using partition pruning.
+
+        Returns:
+            (arrow_new, duplicates_removed)
+        """
+        try:
+            dt = DeltaTable(silver_path, storage_options=self.storage_options)
+
+            today = datetime.utcnow().strftime("%Y-%m-%d")
+
+            existing_table = dt.to_pyarrow_table(
+                filters=[("partition_date", "=", today)]
