@@ -88,3 +88,21 @@ class SilverProcessor(BaseProcessor):
                             
                             -- Remove mismatched totals (0.01 tolerance)
                             AND ABS(total_amount - (quantity * unit_price)) <= 0.01
+                            
+                            -- Valid payment methods
+                            AND payment_method IN ('credit_card', 'debit_card', 'cash', 'digital_wallet')
+                            
+                            -- Valid statuses
+                            AND status IN ('completed', 'pending', 'cancelled')
+                            
+                            -- Valid product ID range
+                            AND product_id > 0 
+                            AND product_id <= {self.num_products}
+                    )
+                    SELECT * FROM cleaned_data
+                """).arrow()
+
+            records_read = arrow_table.num_rows
+            records_cleaned = records_read
+
+            self.logger.info(
