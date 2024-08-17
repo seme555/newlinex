@@ -160,3 +160,21 @@ class SilverProcessor(BaseProcessor):
 
             existing_table = dt.to_pyarrow_table(
                 filters=[("partition_date", "=", today)]
+            )
+
+            existing_ids = existing_table.column('transaction_id').to_pylist()
+            existing_ids_set = set(existing_ids)
+
+            self.logger.info(
+                f"Existing table (today's partition): {existing_table.num_rows} rows, "
+                f"{len(existing_ids_set)} unique transaction_ids"
+            )
+
+            new_ids = arrow_table.column('transaction_id')
+            mask = pc.invert(pc.is_in(new_ids, value_set=pa.array(list(existing_ids_set))))
+            arrow_new = arrow_table.filter(mask)
+
+            duplicates_removed = arrow_table.num_rows - arrow_new.num_rows
+
+            if duplicates_removed > 0:
+                self.logger.warning(
