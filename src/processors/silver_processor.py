@@ -196,3 +196,21 @@ class SilverProcessor(BaseProcessor):
             self.logger.error(
                 f"Unexpected error during deduplication: {type(e).__name__}: {e}",
                 exc_info=True
+            )
+            raise
+    
+    def _write_to_delta(self, arrow_table: pa.Table, silver_path: str) -> None:  # âœ… CHANGED: Accept Arrow
+        """
+        Write Arrow Table to Delta Lake using APPEND mode.
+        Idempotent - safe to re-run.
+        """
+        try:
+
+            # Check if table exists
+            table_exists = False
+            try:
+                DeltaTable(silver_path, storage_options=self.storage_options)
+                table_exists = True
+            except TableNotFoundError:
+                table_exists = False
+            except Exception as e:
