@@ -178,3 +178,21 @@ class SilverProcessor(BaseProcessor):
 
             if duplicates_removed > 0:
                 self.logger.warning(
+                    f"Removed {duplicates_removed} duplicate records "
+                    f"(transaction_ids already exist - likely pipeline re-run)"
+                )
+
+            self.logger.info(
+                f"After deduplication: {arrow_new.num_rows} new records to write"
+            )
+
+            return arrow_new, duplicates_removed
+
+        except TableNotFoundError:
+            self.logger.info("Delta table does not exist yet (first run)")
+            return arrow_table, 0
+
+        except Exception as e:
+            self.logger.error(
+                f"Unexpected error during deduplication: {type(e).__name__}: {e}",
+                exc_info=True
