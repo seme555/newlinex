@@ -214,3 +214,21 @@ class SilverProcessor(BaseProcessor):
             except TableNotFoundError:
                 table_exists = False
             except Exception as e:
+                self.logger.error(
+                    f"Error checking table existence: {type(e).__name__}: {e}"
+                )
+                raise
+
+            mode = "append" if table_exists else "overwrite"
+
+            write_deltalake(
+                silver_path,
+                arrow_table,
+                mode=mode,
+                partition_by=["partition_date"],
+                storage_options=self.storage_options,
+            )
+
+            action = "Appended" if table_exists else "Created"
+            self.logger.info(
+                f"âœ“ {action} {arrow_table.num_rows} records to Silver Delta table"
