@@ -1,0 +1,18 @@
+checks for sales_silver:
+  # ============================================
+  # VOLUME CHECKS
+  # ============================================
+  - row_count > 0:
+      name: Table has data
+
+  - row_count < 10000:
+      name: Prevent data explosion
+
+  # ============================================
+  # SCHEMA VALIDATION
+  # ============================================
+  - schema:
+      name: Ensure sales schema integrity
+      fail:
+        when required column missing:
+          - transaction_id
