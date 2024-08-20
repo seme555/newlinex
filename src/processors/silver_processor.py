@@ -232,3 +232,19 @@ class SilverProcessor(BaseProcessor):
             action = "Appended" if table_exists else "Created"
             self.logger.info(
                 f"âœ“ {action} {arrow_table.num_rows} records to Silver Delta table"
+            )
+            
+        except FileNotFoundError as e:
+            self.logger.error(f"S3 bucket not found: {e}")
+            raise
+            
+        except PermissionError as e:
+            self.logger.error(f"S3 permission denied: {e}")
+            raise
+            
+        except Exception as e:
+            self.logger.error(
+                f"Failed to write to Delta: {type(e).__name__}: {e}",
+                exc_info=True
+            )
+            raise
