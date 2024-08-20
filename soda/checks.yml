@@ -34,3 +34,21 @@ checks for sales_silver:
   - missing_count(customer_id) = 0:
       name: No missing customer IDs
 
+  - missing_count(product_id) = 0:
+      name: No missing product IDs
+
+  - missing_count(transaction_timestamp) = 0:
+      name: No missing timestamps
+
+  # ============================================
+  # BUSINESS RULE VALIDATION
+  # ============================================
+  - failed rows:
+      name: No negative quantities
+      fail condition: quantity <= 0
+
+  - failed rows:
+      name: No negative amounts
+      fail condition: total_amount <= 0
+
+  - failed rows:
