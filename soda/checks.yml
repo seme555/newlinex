@@ -16,3 +16,21 @@ checks for sales_silver:
       fail:
         when required column missing:
           - transaction_id
+          - customer_id
+          - product_id
+          - quantity
+          - unit_price
+          - total_amount
+          - transaction_timestamp
+          - payment_method
+          - status
+
+  # ============================================
+  # COMPLETENESS CHECKS
+  # ============================================
+  - missing_count(transaction_id) = 0:
+      name: No missing transaction IDs
+
+  - missing_count(customer_id) = 0:
+      name: No missing customer IDs
+
