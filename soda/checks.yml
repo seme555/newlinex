@@ -52,3 +52,21 @@ checks for sales_silver:
       fail condition: total_amount <= 0
 
   - failed rows:
+      name: No zero quantities
+      fail condition: quantity = 0
+
+  - failed rows:
+      name: Total amount matches calculation
+      fail condition: ABS(total_amount - (quantity * unit_price)) > 0.01
+
+  # ============================================
+  # DUPLICATE DETECTION
+  # ============================================
+  - duplicate_count(transaction_id) = 0:
+      name: No duplicate transactions
+
+  # ============================================
+  # FRESHNESS CHECK
+  # ============================================
+  - freshness(transaction_timestamp) < 2h:
+      name: Data is recent (within 2 hours)
