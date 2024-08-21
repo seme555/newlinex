@@ -88,3 +88,19 @@ checks for sales_silver:
   - avg(total_amount) between 50 and 2000:
       name: Average transaction value in expected range
 
+  - avg(quantity) between 1 and 10:
+      name: Average quantity in expected range
+
+  - max(total_amount) < 5000:
+      name: No extremely high transactions (fraud detection)
+
+  # ============================================
+  # REFERENTIAL INTEGRITY
+  # ============================================
+  - failed rows:
+      name: Product ID in valid range
+      fail condition: product_id < 1 OR product_id > 50
+
+  - failed rows:
+      name: Customer ID in valid range
+      fail condition: customer_id < 1 OR customer_id > 1000
