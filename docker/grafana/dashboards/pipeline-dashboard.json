@@ -1,0 +1,18 @@
+{
+  "title": "Sales Pipeline Observability",
+  "tags": ["pipeline", "sales", "airflow"],
+  "timezone": "browser",
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Airflow Health",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "up{job=\"airflow\"}",
+          "legendFormat": "Airflow Status"
+        }
