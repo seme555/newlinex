@@ -70,3 +70,21 @@ checks for sales_silver:
   # ============================================
   - freshness(transaction_timestamp) < 2h:
       name: Data is recent (within 2 hours)
+
+  # ============================================
+  # VALID VALUES
+  # ============================================
+  - failed rows:
+      name: Valid payment methods
+      fail condition: payment_method NOT IN ('credit_card', 'debit_card', 'cash', 'digital_wallet')
+
+  - failed rows:
+      name: Valid status values
+      fail condition: status NOT IN ('completed', 'pending', 'cancelled')
+
+  # ============================================
+  # STATISTICAL CHECKS (Simple Ranges)
+  # ============================================
+  - avg(total_amount) between 50 and 2000:
+      name: Average transaction value in expected range
+
