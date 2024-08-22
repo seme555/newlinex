@@ -52,3 +52,21 @@
         {
           "expr": "minio_cluster_health_status",
           "legendFormat": "MinIO Status"
+        }
+      ],
+      "gridPos": {"h": 6, "w": 6, "x": 6, "y": 0},
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "red", "value": 0},
+              {"color": "green", "value": 1}
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {"text": "UP", "color": "green"},
+                "0": {"text": "DOWN", "color": "red"}
