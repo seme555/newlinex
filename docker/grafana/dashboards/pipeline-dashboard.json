@@ -70,3 +70,21 @@
               "options": {
                 "1": {"text": "UP", "color": "green"},
                 "0": {"text": "DOWN", "color": "red"}
+              }
+            }
+          ]
+        }
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value_and_name"
+      }
+    },
+    {
+      "id": 11,
+      "title": "Data Quality Status",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "sum(pipeline_data_quality_failures_total)",
