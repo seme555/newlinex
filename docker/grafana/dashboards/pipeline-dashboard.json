@@ -34,3 +34,21 @@
                 "1": {"text": "UP", "color": "green"},
                 "0": {"text": "DOWN", "color": "red"}
               }
+            }
+          ]
+        }
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value_and_name"
+      }
+    },
+    {
+      "id": 4,
+      "title": "MinIO Health",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "minio_cluster_health_status",
+          "legendFormat": "MinIO Status"
