@@ -106,3 +106,21 @@
             {
               "type": "special",
               "options": {
+                "match": "null",
+                "result": {"text": "PASS", "color": "green"}
+              }
+            }
+          ]
+        }
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value_and_name"
+      }
+    },
+    {
+      "id": 5,
+      "title": "MinIO Storage Used",
+      "type": "stat",
+      "targets": [
