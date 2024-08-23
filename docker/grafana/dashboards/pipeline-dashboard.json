@@ -124,3 +124,21 @@
       "title": "MinIO Storage Used",
       "type": "stat",
       "targets": [
+        {
+          "expr": "(minio_cluster_capacity_raw_total_bytes - minio_cluster_capacity_raw_free_bytes) / 1024 / 1024 / 1024",
+          "legendFormat": "Storage (GB)"
+        }
+      ],
+      "gridPos": {"h": 6, "w": 6, "x": 18, "y": 0},
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 50},
+              {"color": "red", "value": 80}
+            ]
+          }
