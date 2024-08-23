@@ -142,3 +142,21 @@
               {"color": "red", "value": 80}
             ]
           }
+        }
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value_and_name"
+      }
+    },
+    {
+      "id": 2,
+      "title": "DAG Run Duration (avg)",
+      "type": "gauge",
+      "targets": [
+        {
+          "expr": "airflow_dagrun_duration_success_sales_delta_pipeline_sum / airflow_dagrun_duration_success_sales_delta_pipeline_count",
+          "legendFormat": "Duration"
+        }
+      ],
