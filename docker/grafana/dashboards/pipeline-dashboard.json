@@ -178,3 +178,21 @@
       },
       "options": {
         "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      }
+    },
+    {
+      "id": 8,
+      "title": "Task Duration by Stage (avg)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "airflow_dag_sales_delta_pipeline_ingest_to_bronze_duration_sum / airflow_dag_sales_delta_pipeline_ingest_to_bronze_duration_count",
+          "legendFormat": "Ingest",
+          "refId": "A"
+        },
+        {
+          "expr": "airflow_dag_sales_delta_pipeline_transform_to_silver_duration_sum / airflow_dag_sales_delta_pipeline_transform_to_silver_duration_count",
+          "legendFormat": "Clean",
+          "refId": "B"
+        },
