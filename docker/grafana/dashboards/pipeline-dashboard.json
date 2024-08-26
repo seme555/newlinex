@@ -196,3 +196,21 @@
           "legendFormat": "Clean",
           "refId": "B"
         },
+        {
+          "expr": "airflow_dag_sales_delta_pipeline_validate_data_quality_duration_sum / airflow_dag_sales_delta_pipeline_validate_data_quality_duration_count",
+          "legendFormat": "Validate",
+          "refId": "C"
+        },
+        {
+          "expr": "airflow_dag_sales_delta_pipeline_aggregate_to_gold_duration_sum / airflow_dag_sales_delta_pipeline_aggregate_to_gold_duration_count",
+          "legendFormat": "Aggregate",
+          "refId": "D"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 6},
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
