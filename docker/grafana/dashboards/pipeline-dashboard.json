@@ -232,3 +232,21 @@
       "id": 6,
       "title": "Sales Records Processed by Layer",
       "type": "timeseries",
+      "targets": [
+        {
+          "expr": "pipeline_records_processed_total{layer=\"bronze\"}",
+          "legendFormat": "{{layer}}"
+        },
+        {
+          "expr": "pipeline_records_processed_total{layer=\"silver\"}",
+          "legendFormat": "{{layer}}"
+        },
+        {
+          "expr": "pipeline_records_processed_total{layer=\"gold\"}",
+          "legendFormat": "{{table}} (Gold)"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 14},
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
