@@ -250,3 +250,21 @@
       "fieldConfig": {
         "defaults": {
           "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 80,
+            "barAlignment": 0
+          }
+        }
+      },
+      "options": {
+        "tooltip": {"mode": "multi"},
+        "legend": {"displayMode": "table", "placement": "bottom"}
+      }
+    },
+    {
+      "id": 7,
+      "title": "Gold Tables Rows",
+      "type": "bargauge",
+      "targets": [
+        {
+          "expr": "pipeline_delta_table_rows",
