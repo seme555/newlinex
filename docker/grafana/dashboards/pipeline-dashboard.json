@@ -214,3 +214,21 @@
           "custom": {
             "drawStyle": "line",
             "lineInterpolation": "smooth",
+            "fillOpacity": 20,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "log"
+            },
+            "gradientMode": "opacity"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {"mode": "multi"},
+        "legend": {"displayMode": "table", "placement": "right", "calcs": ["mean", "last"]}
+      }
+    },
+    {
+      "id": 6,
+      "title": "Sales Records Processed by Layer",
+      "type": "timeseries",
