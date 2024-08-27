@@ -322,3 +322,21 @@
             },
             "gradientMode": "hue"
           }
+        }
+          ,
+          "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "Successful"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "dark-green",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
