@@ -286,3 +286,21 @@
         }
       },
       "options": {
+        "orientation": "horizontal",
+        "displayMode": "lcd",
+        "showUnfilled": true
+      }
+    },
+    {
+      "id": 10,
+      "title": "MinIO S3 Requests",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "sum(rate(minio_s3_requests_total[5m]))",
+          "legendFormat": "Total"
+        },
+        {
+          "expr": "sum(rate(minio_s3_requests_errors_total[5m]))",
+          "legendFormat": "Errors"
+        },
