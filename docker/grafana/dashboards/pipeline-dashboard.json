@@ -304,3 +304,21 @@
           "expr": "sum(rate(minio_s3_requests_errors_total[5m]))",
           "legendFormat": "Errors"
         },
+        {
+          "expr": "sum(rate(minio_s3_requests_total[5m])) - sum(rate(minio_s3_requests_errors_total[5m]))",
+          "legendFormat": "Successful"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 22},
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "fillOpacity": 20,
+            "stacking": {"mode": "none"},
+            "scaleDistribution": {
+              "type": "symlog"
+            },
+            "gradientMode": "hue"
+          }
