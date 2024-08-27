@@ -268,3 +268,21 @@
       "targets": [
         {
           "expr": "pipeline_delta_table_rows",
+          "legendFormat": "{{table_name}}"
+        }
+      ],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 20},
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": {
+            "mode": "palette-classic",
+            "steps": [
+              {"color": "blue", "value": null},
+              {"color": "green", "value": 500},
+              {"color": "yellow", "value": 1000}
+            ]
+          }
+        }
+      },
+      "options": {
