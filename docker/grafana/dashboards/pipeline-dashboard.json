@@ -376,3 +376,9 @@
         "tooltip": {"mode": "multi"},
         "legend": {"displayMode": "list", "placement": "bottom"}
       }
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 27,
+  "version": 2
+}
