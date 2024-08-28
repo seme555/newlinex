@@ -340,3 +340,21 @@
                   }
                 ]
               },
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "Total"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "dark-yellow",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byRegexp",
