@@ -70,3 +70,21 @@ fi
 
 echo "âœ“ Logged in successfully"
 
+# Add Trino database connection
+echo "ðŸ”Œ Adding Trino database connection..."
+curl -sf -X POST http://metabase:3000/api/database \
+    -H "Content-Type: application/json" \
+    -H "X-Metabase-Session: $SESSION" \
+    -d '{
+        "engine": "starburst",
+        "name": "NewlineX Analytics (Trino)",
+        "details": {
+            "host": "trino",
+            "port": 8081,
+            "catalog": "delta",
+            "schema": "analytics",
+            "user": "metabase",
+            "ssl": false
+        },
+        "is_full_sync": true,
+        "auto_run_queries": true
