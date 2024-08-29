@@ -34,3 +34,21 @@ done
 echo ""
 echo "âœ“ Setup token obtained"
 
+# Initial setup
+echo "ðŸ‘¤ Creating admin user..."
+SESSION_ID=$(curl -sf -X POST http://metabase:3000/api/setup \
+    -H "Content-Type: application/json" \
+    -d "{
+        \"token\": \"$SETUP_TOKEN\",
+        \"user\": {
+            \"email\": \"admin@newlinex.dev\",
+            \"first_name\": \"Admin\",
+            \"last_name\": \"User\",
+            \"password\": \"NewlineX2024!\"
+        },
+        \"prefs\": {
+            \"allow_tracking\": false,
+            \"site_name\": \"NewlineX Sales Analytics\"
+        }
+    }" | grep -o '"id":"[^"]*"' | cut -d'"' -f4)
+
