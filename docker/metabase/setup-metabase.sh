@@ -52,3 +52,21 @@ SESSION_ID=$(curl -sf -X POST http://metabase:3000/api/setup \
         }
     }" | grep -o '"id":"[^"]*"' | cut -d'"' -f4)
 
+echo "âœ“ Admin user created"
+
+# Login to get session
+echo "ðŸ” Logging in..."
+SESSION=$(curl -sf -X POST http://metabase:3000/api/session \
+    -H "Content-Type: application/json" \
+    -d '{
+        "username": "admin@newlinex.dev",
+        "password": "NewlineX2024!"
+    }' | grep -o '"id":"[^"]*"' | cut -d'"' -f4)
+
+if [ -z "$SESSION" ]; then
+    echo "Login failed"
+    exit 1
+fi
+
+echo "âœ“ Logged in successfully"
+
