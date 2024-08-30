@@ -142,3 +142,21 @@ JSON
 
   for TRY in 1 2 3; do
     RESP=$(curl -s -X POST "http://metabase:3000/api/card" \
+      -H "Content-Type: application/json" \
+      -H "X-Metabase-Session: $SESSION" \
+      -d "$PAYLOAD")
+
+    local CARD_ID
+    CARD_ID=$(echo "$RESP" | jq -r '.id // empty')
+
+    if [ -n "$CARD_ID" ]; then
+      echo "âœ“ Created card: $CARD_NAME (ID: $CARD_ID)" 1>&2
+      echo "$CARD_ID"
+      return 0
+    fi
+
+    echo "âš ï¸ Attempt $TRY failed for $CARD_NAME, retrying..." 1>&2
+    sleep $((TRY * 2))
+  done
+
+  echo "Failed to create card: $CARD_NAME" 1>&2
