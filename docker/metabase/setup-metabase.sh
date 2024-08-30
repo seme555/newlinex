@@ -196,3 +196,21 @@ CARD5_ID=$(create_card "Total Transactions Today" \
 CARD6_ID=$(create_card "Unique Customers Today" \
   "SELECT unique_customers FROM daily_sales_summary ORDER BY partition_date DESC LIMIT 1" \
   "scalar" \
+  '{
+    "scalar.field": "unique_customers",
+    "column_settings": {
+      "[\"name\",\"unique_customers\"]": {
+        "number_style": "decimal",
+        "decimals": 0
+      }
+    }
+  }')
+
+CARD7_ID=$(create_card "Completion Rate Today" \
+  "SELECT completion_rate / 100.0 AS completion_rate FROM daily_sales_summary ORDER BY partition_date DESC LIMIT 1" \
+  "scalar" \
+  '{
+    "scalar.field": "completion_rate",
+    "column_settings": {
+      "[\"name\",\"completion_rate\"]": {
+        "number_style": "percent",
