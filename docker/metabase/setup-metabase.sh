@@ -178,3 +178,21 @@ CARD4_ID=$(create_card "Total Revenue Today" \
         "scale": 1
       }
     }
+  }')
+
+CARD5_ID=$(create_card "Total Transactions Today" \
+  "SELECT total_transactions FROM daily_sales_summary ORDER BY partition_date DESC LIMIT 1" \
+  "scalar" \
+  '{
+    "scalar.field": "total_transactions",
+    "column_settings": {
+      "[\"name\",\"total_transactions\"]": {
+        "number_style": "decimal",
+        "decimals": 0
+      }
+    }
+  }')
+
+CARD6_ID=$(create_card "Unique Customers Today" \
+  "SELECT unique_customers FROM daily_sales_summary ORDER BY partition_date DESC LIMIT 1" \
+  "scalar" \
