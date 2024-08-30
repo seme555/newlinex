@@ -124,3 +124,21 @@ create_card() {
   local CARD_QUERY="$2"
   local CARD_DISPLAY="$3"
   local VIZ_SETTINGS="$4"
+
+  local PAYLOAD=$(cat <<JSON
+{
+  "name": "$CARD_NAME",
+  "collection_id": $COLLECTION_ID,
+  "display": "$CARD_DISPLAY",
+  "dataset_query": {
+    "type": "native",
+    "native": { "query": "$CARD_QUERY" },
+    "database": $DATABASE_ID
+  },
+  "visualization_settings": $VIZ_SETTINGS
+}
+JSON
+)
+
+  for TRY in 1 2 3; do
+    RESP=$(curl -s -X POST "http://metabase:3000/api/card" \
