@@ -88,3 +88,21 @@ curl -sf -X POST http://metabase:3000/api/database \
         },
         "is_full_sync": true,
         "auto_run_queries": true
+    }' > /dev/null
+
+DATABASE_ID=$(curl -s -H "X-Metabase-Session: $SESSION" http://metabase:3000/api/database | jq -r '.data[0].id')
+
+echo "âœ“ Trino connection added"
+
+echo ""
+echo "ðŸ“Š Creating Sales Analytics collection..."
+
+# Create Sales Analytics collection with vibrant color
+COLLECTION_RESPONSE=$(curl -sf -X POST http://metabase:3000/api/collection \
+    -H "Content-Type: application/json" \
+    -H "X-Metabase-Session: $SESSION" \
+    -d '{
+        "name": "Sales Analytics",
+        "description": "NewlineX sales pipeline analytics",
+        "color": "#7C3AED"
+    }')
