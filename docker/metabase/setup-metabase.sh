@@ -106,3 +106,21 @@ COLLECTION_RESPONSE=$(curl -sf -X POST http://metabase:3000/api/collection \
         "description": "NewlineX sales pipeline analytics",
         "color": "#7C3AED"
     }')
+
+COLLECTION_ID=$(echo "$COLLECTION_RESPONSE" | grep -o '"id":[0-9]*' | cut -d':' -f2)
+
+if [ -z "$COLLECTION_ID" ]; then
+    echo "Failed to create collection"
+    exit 1
+fi
+
+echo "âœ“ Collection created (ID: $COLLECTION_ID)"
+
+echo "ðŸ“ˆ Creating questions with enhanced styling..."
+
+# Helper function to create a styled card
+create_card() {
+  local CARD_NAME="$1"
+  local CARD_QUERY="$2"
+  local CARD_DISPLAY="$3"
+  local VIZ_SETTINGS="$4"
