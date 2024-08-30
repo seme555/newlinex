@@ -160,3 +160,21 @@ JSON
   done
 
   echo "Failed to create card: $CARD_NAME" 1>&2
+  return 1
+}
+
+# Scalar cards with enhanced styling
+CARD4_ID=$(create_card "Total Revenue Today" \
+  "SELECT total_revenue FROM daily_sales_summary ORDER BY partition_date DESC LIMIT 1" \
+  "scalar" \
+  '{
+    "scalar.field": "total_revenue",
+    "scalar.switch_positive_negative": false,
+    "column_settings": {
+      "[\"name\",\"total_revenue\"]": {
+        "number_style": "currency",
+        "currency": "USD",
+        "currency_style": "symbol",
+        "scale": 1
+      }
+    }
