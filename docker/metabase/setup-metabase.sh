@@ -322,3 +322,21 @@ fi
 
 echo "âœ“ Dashboard created (ID: $DASHBOARD_ID)"
 echo "ðŸ“ Adding styled cards to dashboard..."
+
+# Enhanced layout with card styling
+curl -s -X PUT "http://metabase:3000/api/dashboard/$DASHBOARD_ID" \
+  -H "Content-Type: application/json" \
+  -H "X-Metabase-Session: $SESSION" \
+  -d "{
+    \"name\": \"Sales Performance Dashboard\",
+    \"description\": \"Real-time sales analytics and KPIs\",
+    \"collection_id\": $COLLECTION_ID,
+    \"width\": \"full\",
+    \"dashcards\": [
+      {
+        \"id\": -1, 
+        \"card_id\": $CARD4_ID, 
+        \"row\": 0, 
+        \"col\": 0, 
+        \"size_x\": 6, 
+        \"size_y\": 3,
