@@ -232,3 +232,21 @@ CARD1_ID=$(create_card "Daily Revenue Trend" \
     "graph.colors": ["#7C3AED"],
     "graph.show_values": false,
     "graph.y_axis.auto_range": true,
+    "graph.y_axis.scale": "linear",
+    "column_settings": {
+      "[\"name\",\"total_revenue\"]": {
+        "number_style": "currency",
+        "currency": "USD",
+        "currency_style": "symbol"
+      }
+    }
+  }')
+
+# Bar chart with gradient colors
+CARD2_ID=$(create_card "Top 10 Products by Revenue" \
+  "SELECT product_name, revenue FROM product_performance WHERE CAST(data_date AS DATE) = CURRENT_DATE ORDER BY revenue DESC LIMIT 10" \
+  "bar" \
+  '{
+    "graph.dimensions": ["product_name"],
+    "graph.metrics": ["revenue"],
+    "graph.colors": ["#10B981"],
