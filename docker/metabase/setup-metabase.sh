@@ -250,3 +250,21 @@ CARD2_ID=$(create_card "Top 10 Products by Revenue" \
     "graph.dimensions": ["product_name"],
     "graph.metrics": ["revenue"],
     "graph.colors": ["#10B981"],
+    "graph.show_values": true,
+    "graph.label_value_formatting": "compact",
+    "column_settings": {
+      "[\"name\",\"revenue\"]": {
+        "number_style": "currency",
+        "currency": "USD",
+        "currency_style": "symbol",
+        "number_separators": ".,",
+        "decimals": 0
+      }
+    }
+  }')
+
+# Donut chart with custom colors
+CARD3_ID=$(create_card "Customer Value Distribution" \
+  "SELECT value_tier, COUNT(*) as customers FROM customer_segments WHERE CAST(data_date AS DATE) = CURRENT_DATE GROUP BY value_tier" \
+  "pie" \
+  '{
