@@ -304,3 +304,21 @@ echo ""
 echo "ðŸ“Š Creating enhanced dashboard..."
 
 # Create dashboard with better styling
+DASHBOARD_RESPONSE=$(curl -s -X POST http://metabase:3000/api/dashboard \
+  -H "Content-Type: application/json" \
+  -H "X-Metabase-Session: $SESSION" \
+  -d "{
+    \"name\": \"Sales Performance Dashboard\",
+    \"description\": \"Real-time sales analytics and KPIs\",
+    \"collection_id\": $COLLECTION_ID
+  }")
+
+DASHBOARD_ID=$(echo "$DASHBOARD_RESPONSE" | jq -r '.id // empty')
+
+if [ -z "$DASHBOARD_ID" ]; then
+    echo "Failed to create dashboard"
+    exit 1
+fi
+
+echo "âœ“ Dashboard created (ID: $DASHBOARD_ID)"
+echo "ðŸ“ Adding styled cards to dashboard..."
