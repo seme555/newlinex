@@ -214,3 +214,21 @@ CARD7_ID=$(create_card "Completion Rate Today" \
     "column_settings": {
       "[\"name\",\"completion_rate\"]": {
         "number_style": "percent",
+        "decimals": 1,
+        "scale": 1
+      }
+    }
+  }')
+
+# Line chart with smooth curves and gradient
+CARD1_ID=$(create_card "Daily Revenue Trend" \
+  "SELECT partition_date, total_revenue FROM daily_sales_summary ORDER BY partition_date" \
+  "line" \
+  '{
+    "graph.dimensions": ["partition_date"],
+    "graph.metrics": ["total_revenue"],
+    "line.interpolate": "cardinal",
+    "line.marker_enabled": true,
+    "graph.colors": ["#7C3AED"],
+    "graph.show_values": false,
+    "graph.y_axis.auto_range": true,
