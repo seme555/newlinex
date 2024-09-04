@@ -286,3 +286,21 @@ CARD8_ID=$(create_card "Revenue by Category" \
   "row" \
   '{
     "graph.dimensions": ["category"],
+    "graph.metrics": ["revenue"],
+    "graph.colors": ["#F59E0B"],
+    "graph.show_values": true,
+    "graph.label_value_formatting": "compact",
+    "column_settings": {
+      "[\"name\",\"revenue\"]": {
+        "number_style": "currency",
+        "currency": "USD",
+        "currency_style": "symbol",
+        "decimals": 0
+      }
+    }
+  }')
+
+echo ""
+echo "ðŸ“Š Creating enhanced dashboard..."
+
+# Create dashboard with better styling
