@@ -268,3 +268,21 @@ CARD3_ID=$(create_card "Customer Value Distribution" \
   "SELECT value_tier, COUNT(*) as customers FROM customer_segments WHERE CAST(data_date AS DATE) = CURRENT_DATE GROUP BY value_tier" \
   "pie" \
   '{
+    "pie.dimension": "value_tier",
+    "pie.metric": "customers",
+    "pie.show_legend": true,
+    "pie.show_total": true,
+    "pie.slice_threshold": 1,
+    "pie.colors": {
+      "High Value": "#EF4444",
+      "Low Value": "#FBBF24", 
+      "Medium Value": "#10B981"
+    }
+  }')
+
+# Horizontal bar chart with vibrant colors
+CARD8_ID=$(create_card "Revenue by Category" \
+  "SELECT category, SUM(revenue) as revenue FROM product_performance WHERE CAST(data_date AS DATE) = CURRENT_DATE GROUP BY category ORDER BY revenue DESC" \
+  "row" \
+  '{
+    "graph.dimensions": ["category"],
