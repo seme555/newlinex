@@ -412,3 +412,21 @@ curl -s -X PUT "http://metabase:3000/api/dashboard/$DASHBOARD_ID" \
       },
       {
         \"id\": -8, 
+        \"card_id\": $CARD3_ID, 
+        \"row\": 9, 
+        \"col\": 16, 
+        \"size_x\": 8, 
+        \"size_y\": 6,
+        \"visualization_settings\": {
+          \"card.title\": \"Customer Value Distribution\"
+        }
+      }
+    ]
+  }" > /tmp/dashboard_response.json
+
+echo "âœ“ Dashboard layout configured"
+
+echo ""
+echo "  â•”â•¦â•—â•¦ â•¦â•”â•â•—â•¦â•”â•â•”â•¦â•—â•”â•â•—â•”â•â•—â•¦ â•¦"
+echo "   â•‘â•‘â•‘ â•‘â•‘  â• â•©â•—â•‘â•‘â•‘â•‘â•£ â•šâ•â•—â• â•â•£"
+echo "  â•â•©â•â•šâ•â•â•šâ•â•â•© â•©â•© â•©â•šâ•â•â•šâ•â•â•© â•©"
