@@ -376,3 +376,21 @@ curl -s -X PUT "http://metabase:3000/api/dashboard/$DASHBOARD_ID" \
         \"visualization_settings\": {
           \"card.title\": \"Completion Rate Today\"
         }
+      },
+      {
+        \"id\": -5, 
+        \"card_id\": $CARD1_ID, 
+        \"row\": 3, 
+        \"col\": 0, 
+        \"size_x\": 24, 
+        \"size_y\": 6,
+        \"visualization_settings\": {
+          \"card.title\": \"Daily Revenue Trend\"
+        }
+      },
+      {
+        \"id\": -6, 
+        \"card_id\": $CARD2_ID, 
+        \"row\": 9, 
+        \"col\": 0, 
+        \"size_x\": 8, 
