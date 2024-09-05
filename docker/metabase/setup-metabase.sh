@@ -340,3 +340,21 @@ curl -s -X PUT "http://metabase:3000/api/dashboard/$DASHBOARD_ID" \
         \"col\": 0, 
         \"size_x\": 6, 
         \"size_y\": 3,
+        \"visualization_settings\": {
+          \"card.title\": \"Total Revenue Today\"
+        }
+      },
+      {
+        \"id\": -2, 
+        \"card_id\": $CARD5_ID, 
+        \"row\": 0, 
+        \"col\": 6, 
+        \"size_x\": 6, 
+        \"size_y\": 3,
+        \"visualization_settings\": {
+          \"card.title\": \"Total Transactions Today\"
+        }
+      },
+      {
+        \"id\": -3, 
+        \"card_id\": $CARD6_ID, 
