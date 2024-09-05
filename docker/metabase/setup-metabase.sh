@@ -394,3 +394,21 @@ curl -s -X PUT "http://metabase:3000/api/dashboard/$DASHBOARD_ID" \
         \"row\": 9, 
         \"col\": 0, 
         \"size_x\": 8, 
+        \"size_y\": 6,
+        \"visualization_settings\": {
+          \"card.title\": \"Top 10 Products by Revenue\"
+        }
+      },
+      {
+        \"id\": -7, 
+        \"card_id\": $CARD8_ID, 
+        \"row\": 9, 
+        \"col\": 8, 
+        \"size_x\": 8, 
+        \"size_y\": 6,
+        \"visualization_settings\": {
+          \"card.title\": \"Revenue by Category\"
+        }
+      },
+      {
+        \"id\": -8, 
