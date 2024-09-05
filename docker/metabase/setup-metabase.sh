@@ -358,3 +358,21 @@ curl -s -X PUT "http://metabase:3000/api/dashboard/$DASHBOARD_ID" \
       {
         \"id\": -3, 
         \"card_id\": $CARD6_ID, 
+        \"row\": 0, 
+        \"col\": 12, 
+        \"size_x\": 6, 
+        \"size_y\": 3,
+        \"visualization_settings\": {
+          \"card.title\": \"Unique Customers Today\"
+        }
+      },
+      {
+        \"id\": -4, 
+        \"card_id\": $CARD7_ID, 
+        \"row\": 0, 
+        \"col\": 18, 
+        \"size_x\": 6, 
+        \"size_y\": 3,
+        \"visualization_settings\": {
+          \"card.title\": \"Completion Rate Today\"
+        }
