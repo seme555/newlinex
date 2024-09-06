@@ -34,3 +34,21 @@ mappings:
       run_id: "$3"
 
   - match: "airflow.task.*.*.*.failed"
+    name: "airflow_task_failed"
+    labels:
+      dag_id: "$1"
+      task_id: "$2"
+      run_id: "$3"
+
+  # Scheduler metrics
+  - match: "airflow.scheduler.heartbeat"
+    name: "airflow_scheduler_heartbeat"
+
+  - match: "airflow.scheduler.tasks.running"
+    name: "airflow_scheduler_tasks_running"
+
+  - match: "airflow.scheduler.tasks.starving"
+    name: "airflow_scheduler_tasks_starving"
+
+  - match: "airflow.scheduler.tasks.executable"
+    name: "airflow_scheduler_tasks_executable"
