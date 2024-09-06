@@ -1,0 +1,18 @@
+mappings:
+  # DAG run metrics
+  - match: "airflow.dagrun.*.*.duration"
+    name: "airflow_dagrun_duration"
+    labels:
+      dag_id: "$1"
+      run_id: "$2"
+
+  - match: "airflow.dagrun.*.*.success"
+    name: "airflow_dagrun_success"
+    labels:
+      dag_id: "$1"
+      run_id: "$2"
+
+  - match: "airflow.dagrun.*.*.failed"
+    name: "airflow_dagrun_failed"
+    labels:
+      dag_id: "$1"
