@@ -16,3 +16,21 @@ mappings:
     name: "airflow_dagrun_failed"
     labels:
       dag_id: "$1"
+      run_id: "$2"
+
+  # Task instance metrics
+  - match: "airflow.task.*.*.*.duration"
+    name: "airflow_task_duration"
+    labels:
+      dag_id: "$1"
+      task_id: "$2"
+      run_id: "$3"
+
+  - match: "airflow.task.*.*.*.success"
+    name: "airflow_task_success"
+    labels:
+      dag_id: "$1"
+      task_id: "$2"
+      run_id: "$3"
+
+  - match: "airflow.task.*.*.*.failed"
