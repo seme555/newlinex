@@ -70,3 +70,21 @@ mappings:
       pool: "$1"
 
   - match: "airflow.pool.used_slots.*"
+    name: "airflow_pool_used_slots"
+    labels:
+      pool: "$1"
+
+  # DAG processing
+  - match: "airflow.dag_processing.total_parse_time"
+    name: "airflow_dag_processing_total_parse_time"
+
+  - match: "airflow.dag_processing.last_duration.*"
+    name: "airflow_dag_processing_last_duration"
+    labels:
+      dag_file: "$1"
+
+  # Custom pipeline metrics
+  - match: "airflow.ti.*.*.*.*.duration"
+    name: "airflow_ti_duration"
+    labels:
+      dag_id: "$1"
