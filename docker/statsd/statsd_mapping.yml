@@ -88,3 +88,12 @@ mappings:
     name: "airflow_ti_duration"
     labels:
       dag_id: "$1"
+      task_id: "$2"
+      run_id: "$3"
+      try_number: "$4"
+
+  # Catch-all
+  - match: "airflow.*"
+    name: "airflow_${1}"
+    labels:
+      type: "${1}"
