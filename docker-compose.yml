@@ -16,3 +16,21 @@ x-airflow-common: &airflow-common
     AIRFLOW__SCHEDULER__STATSD_PORT: 9125
     AIRFLOW__SCHEDULER__STATSD_PREFIX: airflow
     AIRFLOW__METRICS__STATSD_ON: "true"
+    AIRFLOW__METRICS__STATSD_HOST: statsd-exporter
+    AIRFLOW__METRICS__STATSD_PORT: 9125
+    AIRFLOW__METRICS__STATSD_PREFIX: airflow
+    
+    # OpenLineage Configuration
+    AIRFLOW__OPENLINEAGE__TRANSPORT: '{"type": "http", "url": "http://marquez:5000", "endpoint": "api/v1/lineage"}'
+    AIRFLOW__OPENLINEAGE__NAMESPACE: "newlinex-sales"
+    AIRFLOW__OPENLINEAGE__DISABLED: "false"
+    AIRFLOW__OPENLINEAGE__DISABLED_FOR_OPERATORS: ""
+    
+    PYTHONPATH: /opt/airflow
+  # S3 credentials for DuckDB/MinIO access (move to .env for security)
+    S3_ENDPOINT: minio:9000
+    S3_ACCESS_KEY: minioadmin
+    S3_SECRET_KEY: minioadmin
+  volumes:
+    - ./airflow/dags:/opt/airflow/dags
+    - ./airflow/logs:/opt/airflow/logs
