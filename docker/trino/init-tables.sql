@@ -16,3 +16,9 @@ CALL delta.system.register_table(
 );
 
 CALL delta.system.register_table(
+  schema_name => 'analytics',
+  table_name  => 'customer_segments',
+  table_location => 's3://gold/customer_segments'
+);
+
+SHOW TABLES;
