@@ -106,3 +106,21 @@ services:
       /usr/bin/mc anonymous set public minio/silver;
       /usr/bin/mc anonymous set public minio/gold;
       tail -f /dev/null
+      "
+
+  marquez:
+    image: marquezproject/marquez:latest
+    container_name: marquez
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    environment:
+      MARQUEZ_CONFIG: /usr/src/app/marquez.yml
+    volumes:
+      - ./docker/marquez/marquez.yml:/usr/src/app/marquez.yml
+    depends_on:
+      postgres-airflow:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/v1/namespaces"]
+      interval: 30s
