@@ -214,3 +214,21 @@ services:
     volumes:
       - ${AIRFLOW_PROJ_DIR:-.}:/sources
     networks:
+      - airflow-network
+
+  # ==================== ANALYTICS ====================
+  
+  metabase:
+    build:
+      context: ./docker/metabase
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    depends_on:
+      - minio
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      retries: 3
+    restart: always
+    networks:
