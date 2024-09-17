@@ -232,3 +232,21 @@ services:
       retries: 3
     restart: always
     networks:
+      - airflow-network
+
+  metabase-setup:
+    image: alpine:3.21
+    container_name: metabase-setup
+    networks:
+      - airflow-network
+    depends_on:
+      metabase:
+        condition: service_healthy
+      trino:
+        condition: service_healthy
+      trino-init:
+        condition: service_completed_successfully 
+    volumes:
+      - ./docker/metabase/setup-metabase.sh:/setup.sh
+    command: >
+      /bin/sh -c "
