@@ -268,3 +268,21 @@ services:
       - TRINO_ENVIRONMENT=production
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/v1/info"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - airflow-network
+    depends_on:
+      - minio
+
+  trino-init:
+    image: trinodb/trino:latest
+    container_name: trino-init
+    depends_on:
+      - trino
+      - minio
+    volumes:
+      - ./docker/trino/catalog:/etc/trino/catalog
+      - ./docker/trino/config.properties:/etc/trino/config.properties
