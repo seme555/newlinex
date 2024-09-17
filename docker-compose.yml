@@ -250,3 +250,21 @@ services:
       - ./docker/metabase/setup-metabase.sh:/setup.sh
     command: >
       /bin/sh -c "
+      apk add --no-cache bash curl jq &&
+      sh /setup.sh &&
+      sleep infinity
+      "
+    restart: "no"
+
+  trino:
+    image: trinodb/trino:latest
+    container_name: trino
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./docker/trino/catalog:/etc/trino/catalog
+      - ./docker/trino/config.properties:/etc/trino/config.properties
+    environment:
+      - TRINO_ENVIRONMENT=production
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/v1/info"]
