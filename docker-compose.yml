@@ -286,3 +286,21 @@ services:
     volumes:
       - ./docker/trino/catalog:/etc/trino/catalog
       - ./docker/trino/config.properties:/etc/trino/config.properties
+      - ./docker/trino/init-tables.sql:/init-tables.sql
+    entrypoint: >
+      /bin/sh -c "
+      echo 'Waiting for Trino...' &&
+      for i in \$$(seq 1 30); do
+        trino --server trino:8081 --execute 'SELECT 1' 2>/dev/null && break || sleep 2;
+      done &&
+      echo 'Waiting for Gold tables in MinIO...' &&
+      for i in \$$(seq 1 60); do
+        HTTP_CODE=\$$(curl -s -o /dev/null -w '%{http_code}' http://minio:9000/gold/daily_sales_summary/_delta_log/00000000000000000000.json);
+        if [ \"\$$HTTP_CODE\" = \"200\" ]; then
+          echo 'Gold tables found!' &&
+          break;
+        fi;
+        echo \"Check \$$i/60: Gold tables not ready yet...\" &&
+        sleep 15;
+      done &&
+      echo 'Registering tables in Trino...' &&
