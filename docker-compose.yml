@@ -322,3 +322,21 @@ services:
       - ./docker/statsd/statsd_mapping.yml:/tmp/statsd_mapping.yml
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:9102/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command:
+      - '--statsd.mapping-config=/tmp/statsd_mapping.yml'
+      - '--statsd.listen-udp=:9125'
+      - '--web.listen-address=:9102'
+    restart: always
+    networks:
+      - airflow-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
