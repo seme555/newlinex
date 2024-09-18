@@ -304,3 +304,21 @@ services:
         sleep 15;
       done &&
       echo 'Registering tables in Trino...' &&
+      trino --server trino:8081 --file /init-tables.sql || echo 'Init failed, will retry on restart'
+      "
+    networks:
+      - airflow-network
+    restart: on-failure
+
+  # ==================== OBSERVABILITY ====================
+  
+  statsd-exporter:
+    image: prom/statsd-exporter:v0.26.0
+    container_name: statsd-exporter
+    ports:
+      - "9102:9102"  # Prometheus metrics endpoint
+      - "9125:9125/udp"  # StatsD UDP port
+    volumes:
+      - ./docker/statsd/statsd_mapping.yml:/tmp/statsd_mapping.yml
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:9102/metrics"]
