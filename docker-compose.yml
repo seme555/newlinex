@@ -394,3 +394,5 @@ volumes:
   grafana-data:
   loki-data:
 
+networks:
+  airflow-network:
