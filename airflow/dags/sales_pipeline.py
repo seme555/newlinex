@@ -52,3 +52,21 @@ default_args = {
     ),
     catchup=get_config('pipeline', 'catchup', default=False),
     default_args=default_args,
+    tags=["sales", "delta", "incremental", "interface-inheritance"],
+    description="Incremental sales data pipeline",
+    max_active_runs=1,  # Prevent concurrent runs
+    doc_md="""
+    # Sales Delta Pipeline
+    
+    **Architecture**: Bronze â†’ Silver â†’ Gold (Medallion)
+    
+    **Design Pattern**: Interface Inheritance
+    - All processors inherit from `BaseProcessor`
+    - Shared authentication, error handling, and metrics
+    - Consistent interface across all layers
+    
+    **Flow**:
+    1. **Bronze**: Ingest raw sales data (with dirty data)
+    2. **Bronze**: Load dimension tables (idempotent)
+    3. **Silver**: Clean, validate, and deduplicate to Delta Lake
+    4. **Quality**: Run Soda Core data quality checks
