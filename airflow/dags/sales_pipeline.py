@@ -106,3 +106,21 @@ def sales_delta_pipeline():
                 f"âœ“ Bronze ingestion complete: {result['count']} records â†’ {result['key']}"
             )
             
+            return result
+            
+        except AirflowSkipException:
+            raise
+        except Exception as e:
+            logger.error(f"Bronze ingestion failed: {e}")
+            raise
+    
+    @task
+    def load_dimension_tables() -> Dict[str, Any]:
+        """
+        Load product and customer dimensions (idempotent).
+        
+        Returns:
+            {"status": "loaded" | "skipped", "products": int, "customers": int}
+        """
+        try:
+            processor = BronzeProcessor()
