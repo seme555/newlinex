@@ -34,3 +34,21 @@ logger = get_logger(__name__)
 default_args = {
     'owner': get_config('pipeline', 'name', default='airflow'),
     'retries': get_config('pipeline', 'retries', default=1),
+    'retry_delay': timedelta(
+        minutes=get_config('pipeline', 'retry_delay_minutes', default=1)
+    ),
+    'execution_timeout': timedelta(minutes=30),
+    'email_on_failure': False,
+    'email_on_retry': False,
+}
+
+
+@dag(
+    dag_id=get_config('pipeline', 'name', default='sales_delta_pipeline'),
+    schedule_interval=get_config('pipeline', 'schedule', default='@hourly'),
+    start_date=datetime.strptime(
+        get_config('pipeline', 'start_date', default='2024-01-01'),
+        '%Y-%m-%d'
+    ),
+    catchup=get_config('pipeline', 'catchup', default=False),
+    default_args=default_args,
