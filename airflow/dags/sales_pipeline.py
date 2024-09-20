@@ -70,3 +70,21 @@ default_args = {
     2. **Bronze**: Load dimension tables (idempotent)
     3. **Silver**: Clean, validate, and deduplicate to Delta Lake
     4. **Quality**: Run Soda Core data quality checks
+    5. **Gold**: Aggregate business metrics (parallel processing)
+    
+    **Idempotency**: Safe to re-run at any step
+    """
+)
+def sales_delta_pipeline():
+    """
+    Sales data pipeline with Bronze-Silver-Gold architecture.
+    Uses Interface Inheritance pattern for clean, maintainable code.
+    """
+    
+    @task(
+        task_id='ingest_to_bronze',
+        inlets=[],
+        outlets=[File(url="s3://bronze/sales_raw/")]
+    )
+    def ingest_sales_data() -> Dict[str, Any]:
+        """
