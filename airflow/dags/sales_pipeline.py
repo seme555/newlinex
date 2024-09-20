@@ -88,3 +88,21 @@ def sales_delta_pipeline():
     )
     def ingest_sales_data() -> Dict[str, Any]:
         """
+        Ingest incremental sales to Bronze layer.
+        
+        Returns:
+            {"key": s3_key, "count": record_count, "status": "success"}
+        """
+        try:
+            processor = BronzeProcessor()
+            result = processor.process()
+            
+            # Skip downstream if no data
+            if result.get('count', 0) == 0:
+                logger.warning("No sales data generated, skipping pipeline")
+                raise AirflowSkipException("No data to process")
+            
+            logger.info(
+                f"âœ“ Bronze ingestion complete: {result['count']} records â†’ {result['key']}"
+            )
+            
