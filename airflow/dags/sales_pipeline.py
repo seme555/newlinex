@@ -160,3 +160,21 @@ def sales_delta_pipeline():
                 "duplicates_removed": int,
                 "status": "success"
             }
+        """
+        try:
+            bronze_key = bronze_result['key']
+            
+            processor = SilverProcessor()
+            result = processor.process(bronze_key=bronze_key)
+            
+            logger.info(
+                f"âœ“ Silver processing complete: "
+                f"{result['records_read']} read â†’ "
+                f"{result['records_cleaned']} cleaned â†’ "
+                f"{result['records_written']} written "
+                f"({result['duplicates_removed']} duplicates removed)"
+            )
+            
+            return result
+            
+        except Exception as e:
