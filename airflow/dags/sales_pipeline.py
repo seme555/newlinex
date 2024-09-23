@@ -124,3 +124,21 @@ def sales_delta_pipeline():
         """
         try:
             processor = BronzeProcessor()
+            result = processor.load_dimensions()
+            
+            if result['status'] == 'skipped':
+                logger.info("âœ“ Dimensions already loaded")
+            else:
+                logger.info(
+                    f"âœ“ Loaded {result['products']} products and "
+                    f"{result['customers']} customers"
+                )
+            
+            return result
+            
+        except Exception as e:
+            logger.error(f"Dimension loading failed: {e}")
+            raise
+    
+    @task(
+        task_id='transform_to_silver',
