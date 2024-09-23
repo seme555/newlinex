@@ -142,3 +142,21 @@ def sales_delta_pipeline():
     
     @task(
         task_id='transform_to_silver',
+        inlets=[File(url="s3://bronze/sales_raw/")],
+        outlets=[File(url="s3://silver/sales_cleaned/")]
+    )
+    def process_to_silver(bronze_result: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Process Bronze â†’ Silver with cleaning and deduplication.
+        
+        Args:
+            bronze_result: Output from ingest_sales_data task
+        
+        Returns:
+            {
+                "records_read": int,
+                "records_cleaned": int,
+                "records_written": int,
+                "duplicates_removed": int,
+                "status": "success"
+            }
