@@ -232,3 +232,21 @@ def sales_delta_pipeline():
         
         current_hour = datetime.utcnow().hour
         trigger_hour = get_config('aggregation', 'trigger_hour', default=0)
+        
+        if is_first_run:
+            logger.info("âœ“ First DAG run - triggering Gold aggregation")
+            return "aggregate_to_gold"
+        elif current_hour == trigger_hour:
+            logger.info(
+                f"âœ“ Triggering Gold aggregation (current_hour={current_hour}, "
+                f"trigger_hour={trigger_hour})"
+            )
+            return "aggregate_to_gold"
+        else:
+            logger.info(
+                f"âŠ˜ Skipping Gold aggregation (current_hour={current_hour}, "
+                f"trigger_hour={trigger_hour})"
+            )
+            return "skip_aggregation"
+    
+    @task(
