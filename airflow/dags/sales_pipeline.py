@@ -178,3 +178,21 @@ def sales_delta_pipeline():
             return result
             
         except Exception as e:
+            logger.error(f"Silver processing failed: {e}")
+            raise
+    
+    @task(
+        task_id='validate_quality',
+        inlets=File(url="s3://silver/sales_cleaned/")
+    )
+    def validate_data_quality() -> Dict[str, Any]:
+        """
+        Run Soda Core quality checks on Silver data.
+        
+        Returns:
+            {
+                "status": "success" | "failed" | "skipped",
+                "checks_run": int,
+                "checks_failed": int
+            }
+        """
