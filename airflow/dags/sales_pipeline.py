@@ -214,3 +214,21 @@ def sales_delta_pipeline():
             
         except Exception as e:
             logger.error(f"Quality validation failed: {e}")
+            raise
+    
+    def should_aggregate(**context) -> str:
+        """
+        Determine if daily aggregation should run.
+        Runs on first execution OR at configured hour (default: midnight UTC).
+        
+        Returns:
+            "aggregate_to_gold" or "skip_aggregation"
+        """
+        
+        # Check if this is the first successful run
+        dag_id = context['dag'].dag_id
+        dag_runs = DagRun.find(dag_id=dag_id, state='success')
+        is_first_run = len(dag_runs) == 0
+        
+        current_hour = datetime.utcnow().hour
+        trigger_hour = get_config('aggregation', 'trigger_hour', default=0)
