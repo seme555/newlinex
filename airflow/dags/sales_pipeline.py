@@ -196,3 +196,21 @@ def sales_delta_pipeline():
                 "checks_failed": int
             }
         """
+        try:
+            checker = QualityChecker()
+            result = checker.process()
+            
+            if result['status'] == 'skipped':
+                logger.info(f"âœ“ Quality checks skipped: {result.get('reason')}")
+            elif result['status'] == 'success':
+                logger.info("Quality checks passed")
+            else:
+                logger.warning(
+                    f"âš ï¸ Quality checks failed: "
+                    f"{result['checks_failed']}/{result['checks_run']} failed"
+                )
+            
+            return result
+            
+        except Exception as e:
+            logger.error(f"Quality validation failed: {e}")
