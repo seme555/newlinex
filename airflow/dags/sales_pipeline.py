@@ -250,3 +250,21 @@ def sales_delta_pipeline():
             return "skip_aggregation"
     
     @task(
+        task_id='aggregate_to_gold',
+        inlets=[File(url="s3://silver/sales_cleaned/")],
+        outlets=[
+            File(url="s3://gold/daily_sales_summary/"),
+            File(url="s3://gold/customer_segments/"),
+            File(url="s3://gold/product_performance/")
+            ]
+        )
+    def aggregate_to_gold() -> Dict[str, Any]:
+        """
+        Create Gold layer business metrics.
+        Uses ThreadPoolExecutor for parallel table processing.
+        
+        Returns:
+            {
+                "daily_sales_summary": {"status": "success", "rows": 1},
+                "product_performance": {"status": "success", "rows": 50},
+                "customer_segments": {"status": "success", "rows": 150},
