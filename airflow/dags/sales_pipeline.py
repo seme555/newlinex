@@ -268,3 +268,21 @@ def sales_delta_pipeline():
                 "daily_sales_summary": {"status": "success", "rows": 1},
                 "product_performance": {"status": "success", "rows": 50},
                 "customer_segments": {"status": "success", "rows": 150},
+                "overall_status": "success"
+            }
+        """
+        try:
+            processor = GoldProcessor()
+            result = processor.process()
+            
+            # Log results for each aggregation
+            for table_name, table_result in result.items():
+                if table_name == "overall_status":
+                    continue
+                
+                if table_result.get("status") == "success":
+                    logger.info(
+                        f"âœ“ {table_name}: {table_result.get('rows', 0)} rows"
+                    )
+                elif table_result.get("status") == "skipped":
+                    logger.info(f"âŠ˜ {table_name}: skipped")
