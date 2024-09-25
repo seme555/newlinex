@@ -322,3 +322,21 @@ def sales_delta_pipeline():
     
     # Quality validation (depends on Silver)
     quality_result = validate_data_quality()
+    
+    # Branching logic for Gold aggregation
+    branch = BranchPythonOperator(
+        task_id="should_aggregate",
+        python_callable=should_aggregate,
+        doc_md="""
+        Determines if Gold aggregation should run based on current hour.
+        Configured via `aggregation.trigger_hour` in pipeline_config.yaml.
+        """
+    )
+    
+    # Gold layer tasks
+    gold_result = aggregate_to_gold()
+    skip_task = skip_aggregation()
+    
+    # ========================================
+    # Task Dependencies
+    # ========================================
