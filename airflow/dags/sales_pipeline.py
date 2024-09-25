@@ -304,3 +304,21 @@ def sales_delta_pipeline():
     def skip_aggregation() -> None:
         """
         Placeholder task for when aggregation is skipped.
+        Uses AirflowSkipException for proper task state.
+        """
+        logger.info("âŠ˜ Aggregation skipped (not scheduled time)")
+        raise AirflowSkipException("Not aggregation time")
+    
+    # ========================================
+    # DAG Task Flow Definition
+    # ========================================
+    
+    # Bronze layer tasks
+    bronze_result = ingest_sales_data()
+    dimensions = load_dimension_tables()
+    
+    # Silver layer task (depends on both Bronze tasks)
+    silver_result = process_to_silver(bronze_result)
+    
+    # Quality validation (depends on Silver)
+    quality_result = validate_data_quality()
