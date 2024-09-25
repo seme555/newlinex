@@ -286,3 +286,21 @@ def sales_delta_pipeline():
                     )
                 elif table_result.get("status") == "skipped":
                     logger.info(f"âŠ˜ {table_name}: skipped")
+                else:
+                    logger.error(
+                        f"{table_name}: {table_result.get('error', 'unknown error')}"
+                    )
+            
+            overall_status = result.get("overall_status", "unknown")
+            logger.info(f"âœ“ Gold aggregation complete: {overall_status}")
+            
+            return result
+            
+        except Exception as e:
+            logger.error(f"Gold aggregation failed: {e}")
+            raise
+    
+    @task
+    def skip_aggregation() -> None:
+        """
+        Placeholder task for when aggregation is skipped.
