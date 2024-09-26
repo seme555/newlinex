@@ -22,7 +22,7 @@ class BaseProcessor(ABC):
         self.storage = StorageClient()
         self.logger = get_logger(self.__class__.__name__)
         self._validate_config()
-        self.logger.info(f"âœ“ Initialized {self.__class__.__name__}")
+        self.logger.info(f"✓ Initialized {self.__class__.__name__}")
     
     @abstractmethod
     def _validate_config(self) -> None:
@@ -57,7 +57,7 @@ class BaseProcessor(ABC):
             grouping_key.update(additional_labels)
         
         push_metrics(grouping_key=grouping_key)
-        self.logger.info(f"âœ“ Tracked {count} records for {layer}/{table}")
+        self.logger.info(f"✓ Tracked {count} records for {layer}/{table}")
     
     def _handle_error(self, error: Exception, context: str) -> None:
         """

@@ -58,7 +58,7 @@ default_args = {
     doc_md="""
     # Sales Delta Pipeline
     
-    **Architecture**: Bronze â†’ Silver â†’ Gold (Medallion)
+    **Architecture**: Bronze → Silver → Gold (Medallion)
     
     **Design Pattern**: Interface Inheritance
     - All processors inherit from `BaseProcessor`
@@ -103,7 +103,7 @@ def sales_delta_pipeline():
                 raise AirflowSkipException("No data to process")
             
             logger.info(
-                f"âœ“ Bronze ingestion complete: {result['count']} records â†’ {result['key']}"
+                f"✓ Bronze ingestion complete: {result['count']} records → {result['key']}"
             )
             
             return result
@@ -127,10 +127,10 @@ def sales_delta_pipeline():
             result = processor.load_dimensions()
             
             if result['status'] == 'skipped':
-                logger.info("âœ“ Dimensions already loaded")
+                logger.info("✓ Dimensions already loaded")
             else:
                 logger.info(
-                    f"âœ“ Loaded {result['products']} products and "
+                    f"✓ Loaded {result['products']} products and "
                     f"{result['customers']} customers"
                 )
             
@@ -147,7 +147,7 @@ def sales_delta_pipeline():
     )
     def process_to_silver(bronze_result: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Process Bronze â†’ Silver with cleaning and deduplication.
+        Process Bronze → Silver with cleaning and deduplication.
         
         Args:
             bronze_result: Output from ingest_sales_data task
@@ -168,9 +168,9 @@ def sales_delta_pipeline():
             result = processor.process(bronze_key=bronze_key)
             
             logger.info(
-                f"âœ“ Silver processing complete: "
-                f"{result['records_read']} read â†’ "
-                f"{result['records_cleaned']} cleaned â†’ "
+                f"✓ Silver processing complete: "
+                f"{result['records_read']} read → "
+                f"{result['records_cleaned']} cleaned → "
                 f"{result['records_written']} written "
                 f"({result['duplicates_removed']} duplicates removed)"
             )
@@ -201,12 +201,12 @@ def sales_delta_pipeline():
             result = checker.process()
             
             if result['status'] == 'skipped':
-                logger.info(f"âœ“ Quality checks skipped: {result.get('reason')}")
+                logger.info(f"✓ Quality checks skipped: {result.get('reason')}")
             elif result['status'] == 'success':
                 logger.info("Quality checks passed")
             else:
                 logger.warning(
-                    f"âš ï¸ Quality checks failed: "
+                    f"⚠️ Quality checks failed: "
                     f"{result['checks_failed']}/{result['checks_run']} failed"
                 )
             
@@ -234,17 +234,17 @@ def sales_delta_pipeline():
         trigger_hour = get_config('aggregation', 'trigger_hour', default=0)
         
         if is_first_run:
-            logger.info("âœ“ First DAG run - triggering Gold aggregation")
+            logger.info("✓ First DAG run - triggering Gold aggregation")
             return "aggregate_to_gold"
         elif current_hour == trigger_hour:
             logger.info(
-                f"âœ“ Triggering Gold aggregation (current_hour={current_hour}, "
+                f"✓ Triggering Gold aggregation (current_hour={current_hour}, "
                 f"trigger_hour={trigger_hour})"
             )
             return "aggregate_to_gold"
         else:
             logger.info(
-                f"âŠ˜ Skipping Gold aggregation (current_hour={current_hour}, "
+                f"⊘ Skipping Gold aggregation (current_hour={current_hour}, "
                 f"trigger_hour={trigger_hour})"
             )
             return "skip_aggregation"
@@ -282,17 +282,17 @@ def sales_delta_pipeline():
                 
                 if table_result.get("status") == "success":
                     logger.info(
-                        f"âœ“ {table_name}: {table_result.get('rows', 0)} rows"
+                        f"✓ {table_name}: {table_result.get('rows', 0)} rows"
                     )
                 elif table_result.get("status") == "skipped":
-                    logger.info(f"âŠ˜ {table_name}: skipped")
+                    logger.info(f"⊘ {table_name}: skipped")
                 else:
                     logger.error(
                         f"{table_name}: {table_result.get('error', 'unknown error')}"
                     )
             
             overall_status = result.get("overall_status", "unknown")
-            logger.info(f"âœ“ Gold aggregation complete: {overall_status}")
+            logger.info(f"✓ Gold aggregation complete: {overall_status}")
             
             return result
             
@@ -306,7 +306,7 @@ def sales_delta_pipeline():
         Placeholder task for when aggregation is skipped.
         Uses AirflowSkipException for proper task state.
         """
-        logger.info("âŠ˜ Aggregation skipped (not scheduled time)")
+        logger.info("⊘ Aggregation skipped (not scheduled time)")
         raise AirflowSkipException("Not aggregation time")
     
     # ========================================
@@ -341,16 +341,16 @@ def sales_delta_pipeline():
     # Task Dependencies
     # ========================================
     
-    # Bronze â†’ Silver (both Bronze tasks must complete)
+    # Bronze → Silver (both Bronze tasks must complete)
     [bronze_result, dimensions] >> silver_result
     
-    # Silver â†’ Quality
+    # Silver → Quality
     silver_result >> quality_result
     
-    # Quality â†’ Branch
+    # Quality → Branch
     quality_result >> branch
     
-    # Branch â†’ Gold or Skip
+    # Branch → Gold or Skip
     branch >> [gold_result, skip_task]
 
 

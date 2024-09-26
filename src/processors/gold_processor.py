@@ -78,7 +78,7 @@ class GoldProcessor(BaseProcessor):
                 if k != "overall_status" and isinstance(r, dict) and r.get("status") == "success"
             ])
             self.logger.info(
-                f"âœ“ Gold aggregation complete: {overall_status} "
+                f"✓ Gold aggregation complete: {overall_status} "
                 f"({success_count} of {len(aggregations)} succeeded)"
             )
         
@@ -146,7 +146,7 @@ class GoldProcessor(BaseProcessor):
                 try:
                     result = future.result()
                     results[agg_name] = result
-                    self.logger.info(f"âœ“ Completed {agg_name}")
+                    self.logger.info(f"✓ Completed {agg_name}")
                     
                 except Exception as e:
                     self.logger.error(
@@ -364,7 +364,7 @@ class GoldProcessor(BaseProcessor):
                 )
                 
                 self.logger.info(
-                    f"âœ“ Merged {arrow_table.num_rows} rows into {table_name} (idempotent)"
+                    f"✓ Merged {arrow_table.num_rows} rows into {table_name} (idempotent)"
                 )
                 
             except Exception as e:
@@ -382,7 +382,7 @@ class GoldProcessor(BaseProcessor):
                     storage_options=self.storage_options,
                 )
                 self.logger.info(
-                    f"âœ“ Created {table_name} Delta table ({arrow_table.num_rows} rows)"
+                    f"✓ Created {table_name} Delta table ({arrow_table.num_rows} rows)"
                 )
             except Exception as e:
                 self.logger.error(

@@ -1,13 +1,13 @@
-# **NewlineX â€” Batch Data Pipeline with Airflow, DuckDB, Delta Lake, Trino and Metabase**
+# **NewlineX — Batch Data Pipeline with Airflow, DuckDB, Delta Lake, Trino and Metabase**
 
 ![Docker](https://img.shields.io/badge/Docker-Enabled-blue?logo=docker) ![Apache Airflow](https://img.shields.io/badge/Apache%20Airflow-Orchestration-017CEE?logo=apacheairflow) ![DuckDB](https://img.shields.io/badge/DuckDB-Processing-yellow?logo=duckdb) ![Delta Lake](https://img.shields.io/badge/Delta%20Lake-Table%20Format-blue?logo=delta) ![Trino](https://img.shields.io/badge/Trino-SQL%20Query%20Engine-green?logo=trino) ![Metabase](https://img.shields.io/badge/Metabase-Visualization-509EE3?logo=metabase)
 
 ---
 
-## **ðŸ“– Overview**
-This project demonstrates a **batch data pipeline** following the **Medallion Architecture** (Bronze â†’ Silver â†’ Gold). It showcases how to ingest, clean, validate, aggregate, and visualize sales data using modern data engineering tools, all containerized with Docker for easy deployment.
+## **📖 Overview**
+This project demonstrates a **batch data pipeline** following the **Medallion Architecture** (Bronze → Silver → Gold). It showcases how to ingest, clean, validate, aggregate, and visualize sales data using modern data engineering tools, all containerized with Docker for easy deployment.
 
-ðŸ”Ž **Technologies Used:**
+🔎 **Technologies Used:**
 
 - **Orchestration:** [Apache Airflow](https://airflow.apache.org/)
 - **Data Processing:** [DuckDB](https://duckdb.org/)
@@ -23,7 +23,7 @@ This pipeline is perfect for **data engineers** and **students** interested in l
 
 ---
 
-## **ðŸ—ï¸ Architecture**
+## **🏗️ Architecture**
 
 ![Architecture Diagram](img/architecture.png)
 
@@ -41,7 +41,7 @@ This pipeline is perfect for **data engineers** and **students** interested in l
 
 ---
 
-## **ðŸ› ï¸ Tech Stack**
+## **🛠️ Tech Stack**
 
 | **Component**         | **Technology**                                                              | **Purpose**                                         |
 |-----------------------|-----------------------------------------------------------------------------|-----------------------------------------------------|
@@ -58,48 +58,48 @@ This pipeline is perfect for **data engineers** and **students** interested in l
 
 ---
 
-## **ðŸ“¦ Project Structure**
+## **📦 Project Structure**
 
 ```bash
 newlinex-sales/
-â”œâ”€â”€ airflow/
-â”‚   â””â”€â”€ dags/
-â”‚       â””â”€â”€ sales_pipeline.py          # Main Airflow DAG
-â”œâ”€â”€ config/
-â”‚   â””â”€â”€ pipeline_config.yaml           # Pipeline configuration
-â”œâ”€â”€ docker/
-â”‚   â”œâ”€â”€ airflow/                       # Airflow Docker setup
-â”‚   â”œâ”€â”€ grafana/                       # Grafana dashboards & datasources
-â”‚   â”œâ”€â”€ marquez/                       # Marquez lineage configuration
-â”‚   â”œâ”€â”€ metabase/                      # Metabase setup scripts
-â”‚   â”œâ”€â”€ prometheus/                    # Prometheus configuration
-â”‚   â”œâ”€â”€ statsd/                        # StatsD metrics mapping
-â”‚   â””â”€â”€ trino/                         # Trino catalog configuration
-â”œâ”€â”€ docker-compose.yml                 # Docker services orchestration
-â”œâ”€â”€ soda/
-â”‚   â””â”€â”€ checks.yml                     # Soda Core quality checks
-â””â”€â”€ src/
-    â”œâ”€â”€ config.py                      # Configuration management
-    â”œâ”€â”€ generators/
-    â”‚   â””â”€â”€ sales_generator.py         # Synthetic data generator
-    â”œâ”€â”€ models/
-    â”‚   â””â”€â”€ schemas.py                 # Pydantic validation schemas
-    â”œâ”€â”€ processors/
-    â”‚   â”œâ”€â”€ base_processor.py          # Abstract base class
-    â”‚   â”œâ”€â”€ bronze_processor.py        # Raw data ingestion
-    â”‚   â”œâ”€â”€ silver_processor.py        # Data cleaning & deduplication
-    â”‚   â”œâ”€â”€ gold_processor.py          # Business aggregations
-    â”‚   â””â”€â”€ quality_checker.py         # Data quality validation
-    â””â”€â”€ utils/
-        â”œâ”€â”€ database.py                # DuckDB connection manager
-        â”œâ”€â”€ logger.py                  # Logging configuration
-        â”œâ”€â”€ metrics.py                 # Custom Prometheus metrics
-        â””â”€â”€ storage.py                 # MinIO/S3 client
+├── airflow/
+│   └── dags/
+│       └── sales_pipeline.py          # Main Airflow DAG
+├── config/
+│   └── pipeline_config.yaml           # Pipeline configuration
+├── docker/
+│   ├── airflow/                       # Airflow Docker setup
+│   ├── grafana/                       # Grafana dashboards & datasources
+│   ├── marquez/                       # Marquez lineage configuration
+│   ├── metabase/                      # Metabase setup scripts
+│   ├── prometheus/                    # Prometheus configuration
+│   ├── statsd/                        # StatsD metrics mapping
+│   └── trino/                         # Trino catalog configuration
+├── docker-compose.yml                 # Docker services orchestration
+├── soda/
+│   └── checks.yml                     # Soda Core quality checks
+└── src/
+    ├── config.py                      # Configuration management
+    ├── generators/
+    │   └── sales_generator.py         # Synthetic data generator
+    ├── models/
+    │   └── schemas.py                 # Pydantic validation schemas
+    ├── processors/
+    │   ├── base_processor.py          # Abstract base class
+    │   ├── bronze_processor.py        # Raw data ingestion
+    │   ├── silver_processor.py        # Data cleaning & deduplication
+    │   ├── gold_processor.py          # Business aggregations
+    │   └── quality_checker.py         # Data quality validation
+    └── utils/
+        ├── database.py                # DuckDB connection manager
+        ├── logger.py                  # Logging configuration
+        ├── metrics.py                 # Custom Prometheus metrics
+        └── storage.py                 # MinIO/S3 client
 ```
 
 ---
 
-## **ðŸ”§ Setup Instructions**
+## **🔧 Setup Instructions**
 
 ### **1. Prerequisites**
 
@@ -120,7 +120,7 @@ cd newlinex
 docker-compose up -d
 ```
 
-âš ï¸ **Note:** First startup takes 3-5 minutes to initialize all services. All components are containerized using Docker for easy deployment.
+⚠️ **Note:** First startup takes 3-5 minutes to initialize all services. All components are containerized using Docker for easy deployment.
 
 ### **4. Access the Services**
 
@@ -136,7 +136,7 @@ docker-compose up -d
 
 ---
 
-## **ðŸ“¥ Data Generation & Ingestion**
+## **📥 Data Generation & Ingestion**
 
 ### **1. Sales Data Simulation**
 
@@ -177,7 +177,7 @@ The Airflow DAG runs **hourly** by default and processes:
 
 ---
 
-## **ðŸ”„ Data Processing Pipeline**
+## **🔄 Data Processing Pipeline**
 
 ### **Bronze Layer: Raw Data Ingestion**
 
@@ -273,7 +273,7 @@ GROUP BY customer_id, customer_segment
 
 ---
 
-## **âœ… Data Quality Validation**
+## **✅ Data Quality Validation**
 
 ### **Soda Core Checks (15+ Rules)**
 
@@ -314,7 +314,7 @@ checks for sales_silver:
 
 ---
 
-## **ðŸ” Query Data with Trino**
+## **🔍 Query Data with Trino**
 
 ### **1. Run Trino CLI**
 
@@ -374,7 +374,7 @@ ORDER BY category_revenue DESC;
 
 ---
 
-## **ðŸ“Š Data Visualization with Metabase**
+## **📊 Data Visualization with Metabase**
 
 ### **1. Access Metabase**
 
@@ -429,7 +429,7 @@ GROUP BY category;
 
 ---
 
-## **ðŸ“ˆ Data Lineage with Marquez**
+## **📈 Data Lineage with Marquez**
 
 ### **1. Access Marquez UI**
 
@@ -442,7 +442,7 @@ Navigate to: `http://localhost:3002`
 
 Marquez automatically tracks:
 - Dataset inputs/outputs for each task
-- Transformations across Bronze â†’ Silver â†’ Gold
+- Transformations across Bronze → Silver → Gold
 - Column-level lineage (when available)
 - Run history and timing
 
@@ -462,7 +462,7 @@ Marquez automatically tracks:
 
 ---
 
-## **ðŸ”­ Observability with Prometheus & Grafana**
+## **🔭 Observability with Prometheus & Grafana**
 
 ### **1. Access Grafana**
 
@@ -529,39 +529,39 @@ rate(pipeline_records_processed_total[1h])
 
 ---
 
-## **ðŸ† Key Features**
+## **🏆 Key Features**
 
-### **âœ… Medallion Architecture**
-- Bronze â†’ Silver â†’ Gold layers
+### **✅ Medallion Architecture**
+- Bronze → Silver → Gold layers
 - Progressive data quality improvement
 - Clear separation of concerns
 
-### **âœ… Data Quality First**
+### **✅ Data Quality First**
 - 15+ Soda Core validation rules
 - Automatic dirty data generation for testing
 - Quality metrics in Grafana
 
-### **âœ… ACID Transactions**
+### **✅ ACID Transactions**
 - Delta Lake for Silver/Gold layers
 - Time travel support
 - Schema evolution
 
-### **âœ… Idempotent Operations**
+### **✅ Idempotent Operations**
 - Safe to re-run any task
 - Deduplication in Silver layer
 - Upsert operations in Gold layer
 
-### **âœ… Parallel Processing**
+### **✅ Parallel Processing**
 - Gold aggregations run concurrently
 - ThreadPoolExecutor with 3 workers
 
-### **âœ… Full Observability**
+### **✅ Full Observability**
 - Custom Prometheus metrics
 - Grafana dashboards
 - Data lineage with Marquez
 - OpenLineage integration
 
-### **âœ… Best Practices**
+### **✅ Best Practices**
 - Error handling & retries
 - Comprehensive logging
 - Health checks for services
@@ -569,7 +569,7 @@ rate(pipeline_records_processed_total[1h])
 
 ---
 
-## **ðŸ”§ Configuration**
+## **🔧 Configuration**
 
 ### **Pipeline Configuration** (`config/pipeline_config.yaml`)
 
@@ -609,7 +609,7 @@ observability:
 
 ---
 
-## **ðŸ”§ Delta Lake Configuration**
+## **🔧 Delta Lake Configuration**
 
 Delta Lake is used as the storage format for the Silver and Gold layers, providing ACID transactions, schema enforcement, and time travel capabilities. Below are the key configuration details:
 
@@ -627,7 +627,7 @@ Delta Lake tables are registered in Trino for querying, and the metadata is mana
 
 ---
 
-## **ðŸ”„ Airflow DAG Details**
+## **🔄 Airflow DAG Details**
 
 The Airflow DAG orchestrates the entire pipeline, ensuring data flows through the Bronze, Silver, and Gold layers. Below are the key tasks and their dependencies:
 
@@ -646,7 +646,7 @@ The DAG is scheduled to run hourly, ensuring timely updates to the data pipeline
 
 ---
 
-## **ðŸ› Troubleshooting**
+## **🐛 Troubleshooting**
 
 ### **Issue: Services not starting**
 
@@ -702,7 +702,7 @@ docker-compose logs -f metabase-setup
 
 ---
 
-## **ðŸ“Ž Quick Reference Commands**
+## **📎 Quick Reference Commands**
 
 | **Component**           | **Command**                                                              |
 |-------------------------|--------------------------------------------------------------------------|
@@ -718,7 +718,7 @@ docker-compose logs -f metabase-setup
 
 ---
 
-## **ðŸš€ Future**
+## **🚀 Future**
 
 - [ ] Implement CDC (Change Data Capture) for dimension tables
 - [ ] Add alerting with Slack for pipeline failures
@@ -729,7 +729,7 @@ docker-compose logs -f metabase-setup
 
 ---
 
-## **ðŸ¤ Contributing**
+## **🤝 Contributing**
 
 Contributions are welcome! Please feel free to submit issues or pull requests.
 
@@ -744,13 +744,13 @@ Contributions are welcome! Please feel free to submit issues or pull requests.
 
 ---
 
-## **ðŸ“œ License**
+## **📜 License**
 
 This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## **ðŸ™Œ Acknowledgments**
+## **🙌 Acknowledgments**
 
 - **Apache Airflow** team for the orchestration framework
 - **DuckDB** team for the blazing-fast analytical database
@@ -763,11 +763,11 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## **ðŸ“ž Contact & Support**
+## **📞 Contact & Support**
 
 - **GitHub Issues:** [Report bugs or request features](https://github.com/seme555/newlinex/issues)
 - **Email:** semeabe@gmail.com
 
 ---
 
-### **â­ If you found this helpful, please give it a star!**
+### **⭐ If you found this helpful, please give it a star!**

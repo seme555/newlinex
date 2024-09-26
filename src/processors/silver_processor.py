@@ -106,7 +106,7 @@ class SilverProcessor(BaseProcessor):
             records_cleaned = records_read
 
             self.logger.info(
-                f"âœ“ Cleaned data: {records_read} â†’ {records_cleaned} records "
+                f"✓ Cleaned data: {records_read} → {records_cleaned} records "
                 f"({records_read - records_cleaned} removed)"
             )
 
@@ -128,7 +128,7 @@ class SilverProcessor(BaseProcessor):
                     count=records_written
                 )
             else:
-                self.logger.info("âŠ˜ No new records to write")
+                self.logger.info("⊘ No new records to write")
             
             return {
                 "records_read": records_read,
@@ -199,7 +199,7 @@ class SilverProcessor(BaseProcessor):
             )
             raise
     
-    def _write_to_delta(self, arrow_table: pa.Table, silver_path: str) -> None:  # âœ… CHANGED: Accept Arrow
+    def _write_to_delta(self, arrow_table: pa.Table, silver_path: str) -> None:  # ✅ CHANGED: Accept Arrow
         """
         Write Arrow Table to Delta Lake using APPEND mode.
         Idempotent - safe to re-run.
@@ -231,7 +231,7 @@ class SilverProcessor(BaseProcessor):
 
             action = "Appended" if table_exists else "Created"
             self.logger.info(
-                f"âœ“ {action} {arrow_table.num_rows} records to Silver Delta table"
+                f"✓ {action} {arrow_table.num_rows} records to Silver Delta table"
             )
             
         except FileNotFoundError as e:

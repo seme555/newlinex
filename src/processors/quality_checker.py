@@ -63,7 +63,7 @@ class QualityChecker(BaseProcessor):
                 df = dt.to_pandas()
                 
                 self.logger.info(
-                    f"âœ“ Loaded Silver table for validation "
+                    f"✓ Loaded Silver table for validation "
                     f"(version={dt.version()}, rows={len(df)})"
                 )
                 
@@ -142,7 +142,7 @@ class QualityChecker(BaseProcessor):
                     
                     return result
                 else:
-                    self.logger.info("âœ“ All data quality checks passed")
+                    self.logger.info("✓ All data quality checks passed")
                     return {
                         "status": "success",
                         "checks_run": total_checks if total_checks > 0 else 0,

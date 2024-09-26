@@ -57,7 +57,7 @@ class BronzeProcessor(BaseProcessor):
             )
             
             self.logger.info(
-                f"âœ“ Ingested {len(sales_data)} sales records to {key}"
+                f"✓ Ingested {len(sales_data)} sales records to {key}"
             )
             
             return {
@@ -84,7 +84,7 @@ class BronzeProcessor(BaseProcessor):
             customers_key = "dimensions/customers.json"
             
             if self.storage.object_exists(self.bronze_bucket, products_key):
-                self.logger.info("âœ“ Dimensions already loaded, skipping")
+                self.logger.info("✓ Dimensions already loaded, skipping")
                 return {
                     "status": "skipped",
                     "reason": "already_exists"
@@ -112,7 +112,7 @@ class BronzeProcessor(BaseProcessor):
             )
             
             self.logger.info(
-                f"âœ“ Loaded {len(products)} products and {len(customers)} customers"
+                f"✓ Loaded {len(products)} products and {len(customers)} customers"
             )
             
             return {

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-echo "â³ Waiting for Metabase to start..."
+echo "⏳ Waiting for Metabase to start..."
 
 # Wait for Metabase to be ready
 until curl -sf http://metabase:3000/api/health > /dev/null 2>&1; do
@@ -10,10 +10,10 @@ until curl -sf http://metabase:3000/api/health > /dev/null 2>&1; do
 done
 
 echo ""
-echo "âœ“ Metabase is ready!"
+echo "✓ Metabase is ready!"
 
 # Get setup token
-echo "ðŸ”‘ Getting setup token..."
+echo "🔑 Getting setup token..."
 SETUP_TOKEN=""
 MAX_RETRIES=30
 RETRY_COUNT=0
@@ -32,10 +32,10 @@ while [ -z "$SETUP_TOKEN" ] || [ "$SETUP_TOKEN" = "null" ]; do
 done
 
 echo ""
-echo "âœ“ Setup token obtained"
+echo "✓ Setup token obtained"
 
 # Initial setup
-echo "ðŸ‘¤ Creating admin user..."
+echo "👤 Creating admin user..."
 SESSION_ID=$(curl -sf -X POST http://metabase:3000/api/setup \
     -H "Content-Type: application/json" \
     -d "{
@@ -52,10 +52,10 @@ SESSION_ID=$(curl -sf -X POST http://metabase:3000/api/setup \
         }
     }" | grep -o '"id":"[^"]*"' | cut -d'"' -f4)
 
-echo "âœ“ Admin user created"
+echo "✓ Admin user created"
 
 # Login to get session
-echo "ðŸ” Logging in..."
+echo "🔐 Logging in..."
 SESSION=$(curl -sf -X POST http://metabase:3000/api/session \
     -H "Content-Type: application/json" \
     -d '{
@@ -68,10 +68,10 @@ if [ -z "$SESSION" ]; then
     exit 1
 fi
 
-echo "âœ“ Logged in successfully"
+echo "✓ Logged in successfully"
 
 # Add Trino database connection
-echo "ðŸ”Œ Adding Trino database connection..."
+echo "🔌 Adding Trino database connection..."
 curl -sf -X POST http://metabase:3000/api/database \
     -H "Content-Type: application/json" \
     -H "X-Metabase-Session: $SESSION" \
@@ -92,10 +92,10 @@ curl -sf -X POST http://metabase:3000/api/database \
 
 DATABASE_ID=$(curl -s -H "X-Metabase-Session: $SESSION" http://metabase:3000/api/database | jq -r '.data[0].id')
 
-echo "âœ“ Trino connection added"
+echo "✓ Trino connection added"
 
 echo ""
-echo "ðŸ“Š Creating Sales Analytics collection..."
+echo "📊 Creating Sales Analytics collection..."
 
 # Create Sales Analytics collection with vibrant color
 COLLECTION_RESPONSE=$(curl -sf -X POST http://metabase:3000/api/collection \
@@ -114,9 +114,9 @@ if [ -z "$COLLECTION_ID" ]; then
     exit 1
 fi
 
-echo "âœ“ Collection created (ID: $COLLECTION_ID)"
+echo "✓ Collection created (ID: $COLLECTION_ID)"
 
-echo "ðŸ“ˆ Creating questions with enhanced styling..."
+echo "📈 Creating questions with enhanced styling..."
 
 # Helper function to create a styled card
 create_card() {
@@ -150,12 +150,12 @@ JSON
     CARD_ID=$(echo "$RESP" | jq -r '.id // empty')
 
     if [ -n "$CARD_ID" ]; then
-      echo "âœ“ Created card: $CARD_NAME (ID: $CARD_ID)" 1>&2
+      echo "✓ Created card: $CARD_NAME (ID: $CARD_ID)" 1>&2
       echo "$CARD_ID"
       return 0
     fi
 
-    echo "âš ï¸ Attempt $TRY failed for $CARD_NAME, retrying..." 1>&2
+    echo "⚠️ Attempt $TRY failed for $CARD_NAME, retrying..." 1>&2
     sleep $((TRY * 2))
   done
 
@@ -301,7 +301,7 @@ CARD8_ID=$(create_card "Revenue by Category" \
   }')
 
 echo ""
-echo "ðŸ“Š Creating enhanced dashboard..."
+echo "📊 Creating enhanced dashboard..."
 
 # Create dashboard with better styling
 DASHBOARD_RESPONSE=$(curl -s -X POST http://metabase:3000/api/dashboard \
@@ -320,8 +320,8 @@ if [ -z "$DASHBOARD_ID" ]; then
     exit 1
 fi
 
-echo "âœ“ Dashboard created (ID: $DASHBOARD_ID)"
-echo "ðŸ“ Adding styled cards to dashboard..."
+echo "✓ Dashboard created (ID: $DASHBOARD_ID)"
+echo "📍 Adding styled cards to dashboard..."
 
 # Enhanced layout with card styling
 curl -s -X PUT "http://metabase:3000/api/dashboard/$DASHBOARD_ID" \
@@ -424,23 +424,23 @@ curl -s -X PUT "http://metabase:3000/api/dashboard/$DASHBOARD_ID" \
     ]
   }" > /tmp/dashboard_response.json
 
-echo "âœ“ Dashboard layout configured"
+echo "✓ Dashboard layout configured"
 
 echo ""
-echo "  â•”â•¦â•—â•¦ â•¦â•”â•â•—â•¦â•”â•â•”â•¦â•—â•”â•â•—â•”â•â•—â•¦ â•¦"
-echo "   â•‘â•‘â•‘ â•‘â•‘  â• â•©â•—â•‘â•‘â•‘â•‘â•£ â•šâ•â•—â• â•â•£"
-echo "  â•â•©â•â•šâ•â•â•šâ•â•â•© â•©â•© â•©â•šâ•â•â•šâ•â•â•© â•©"
+echo "  ╔╦╗╦ ╦╔═╗╦╔═╔╦╗╔═╗╔═╗╦ ╦"
+echo "   ║║║ ║║  ╠╩╗║║║║╣ ╚═╗╠═╣"
+echo "  ═╩╝╚═╝╚═╝╩ ╩╩ ╩╚═╝╚═╝╩ ╩"
 echo ""
-echo "  â˜…å½¡ âš¡ SALES ANALYTICS âš¡ â˜…å½¡"
+echo "  ★彡 ⚡ SALES ANALYTICS ⚡ ★彡"
 echo ""
-echo "  âœ… Dashboard Setup Complete!"
+echo "  ✅ Dashboard Setup Complete!"
 echo ""
-echo "  ðŸŒ URL:      http://localhost:3000"
-echo "  ðŸ‘¤ Email:    admin@newlinex.dev"
-echo "  ðŸ”‘ Password: NewlineX2024!"
+echo "  🌐 URL:      http://localhost:3000"
+echo "  👤 Email:    admin@newlinex.dev"
+echo "  🔑 Password: NewlineX2024!"
 echo ""
-echo "  ðŸ“Š Database: NewlineX Analytics (Trino)"
-echo "  ðŸ“ Schema:   delta.analytics"
+echo "  📊 Database: NewlineX Analytics (Trino)"
+echo "  📁 Schema:   delta.analytics"
 echo ""
-echo "  â˜…å½¡ âš¡ â˜…å½¡ âš¡ â˜…å½¡ âš¡ â˜…å½¡ âš¡"
+echo "  ★彡 ⚡ ★彡 ⚡ ★彡 ⚡ ★彡 ⚡"
 echo ""
