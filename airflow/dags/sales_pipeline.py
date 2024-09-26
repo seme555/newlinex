@@ -340,3 +340,19 @@ def sales_delta_pipeline():
     # ========================================
     # Task Dependencies
     # ========================================
+    
+    # Bronze â†’ Silver (both Bronze tasks must complete)
+    [bronze_result, dimensions] >> silver_result
+    
+    # Silver â†’ Quality
+    silver_result >> quality_result
+    
+    # Quality â†’ Branch
+    quality_result >> branch
+    
+    # Branch â†’ Gold or Skip
+    branch >> [gold_result, skip_task]
+
+
+# Instantiate the DAG
+sales_delta_pipeline_dag = sales_delta_pipeline()
