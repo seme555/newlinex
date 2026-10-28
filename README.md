@@ -1,6 +1,6 @@
 # **NewlineX — Batch Data Pipeline with Airflow, DuckDB, Delta Lake, Trino and Metabase**
 
-![Docker](https://img.shields.io/badge/Docker-Enabled-blue?logo=docker) ![Apache Airflow](https://img.shields.io/badge/Apache%20Airflow-Orchestration-017CEE?logo=apacheairflow) ![DuckDB](https://img.shields.io/badge/DuckDB-Processing-yellow?logo=duckdb) ![Delta Lake](https://img.shields.io/badge/Delta%20Lake-Table%20Format-blue?logo=delta) ![Trino](https://img.shields.io/badge/Trino-SQL%20Query%20Engine-green?logo=trino) ![Metabase](https://img.shields.io/badge/Metabase-Visualization-509EE3?logo=metabase)
+![CI](https://github.com/seme555/newlinex/actions/workflows/ci.yml/badge.svg) ![Docker](https://img.shields.io/badge/Docker-Enabled-blue?logo=docker) ![Apache Airflow](https://img.shields.io/badge/Apache%20Airflow-Orchestration-017CEE?logo=apacheairflow) ![DuckDB](https://img.shields.io/badge/DuckDB-Processing-yellow?logo=duckdb) ![Delta Lake](https://img.shields.io/badge/Delta%20Lake-Table%20Format-blue?logo=delta) ![Trino](https://img.shields.io/badge/Trino-SQL%20Query%20Engine-green?logo=trino) ![Metabase](https://img.shields.io/badge/Metabase-Visualization-509EE3?logo=metabase)
 
 ---
 
@@ -737,7 +737,7 @@ Contributions are welcome! Please feel free to submit issues or pull requests.
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Run tests (when available)
+4. Run schema unit tests (`pip install -r tests/requirements.txt && PYTHONPATH=. pytest tests/ -v`)
 5. Commit changes (`git commit -m 'add awesome feature'`)
 6. Push to branch (`git push origin feature/awesome-feature`)
 7. Open a Pull Request
